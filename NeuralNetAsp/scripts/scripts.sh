@@ -1,4 +1,3 @@
 docker build -t neuralnetasp .  
 docker images 
-docker create --name neuralnetasp neuralnetasp
-docker start neuralnetasp
+docker run -d -p 80:80 --name neuralnetasp neuralnetasp
