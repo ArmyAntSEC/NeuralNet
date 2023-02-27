@@ -1,11 +1,14 @@
 {
-	"folders": [
-		{
-			"path": "NeuralNetAsp"
-		},
-		{
-			"path": "NeuralNetCdk"
-		}
-	],
+  "folders": [
+    {
+      "path": "NeuralNetAsp"
+    },
+    {
+      "path": "NeuralNetCdk"
+    },
+    {
+      "path": "NeuralNetAsp.Tests"
+    }
+  ],
   "settings": {}
 }
