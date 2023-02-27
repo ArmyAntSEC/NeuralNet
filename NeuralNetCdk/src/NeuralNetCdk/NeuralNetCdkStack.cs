@@ -2,6 +2,11 @@ using Amazon.CDK;
 using Amazon.CDK.AWS.DynamoDB;
 using Constructs;
 
+using System.IO;
+using Amazon.CDK.AWS.ECS;
+using Amazon.CDK.AWS.ECS.Patterns;
+using Amazon.CDK.AWS.Ecr.Assets;
+
 namespace NeuralNetCdk
 {
   public class NeuralNetCdkStack : Stack
@@ -15,6 +20,23 @@ namespace NeuralNetCdk
         SortKey = new Attribute { Name = "SK", Type = AttributeType.STRING },
         BillingMode = BillingMode.PAY_PER_REQUEST
       });
+
+      //Create a load balanced webserver
+      new ApplicationLoadBalancedFargateService(this, "NeuralNetApiServer",
+        new ApplicationLoadBalancedFargateServiceProps
+        {
+          TaskImageOptions = new ApplicationLoadBalancedTaskImageOptions
+          {
+            Image = ContainerImage.FromDockerImageAsset(
+              new DockerImageAsset(this, "NeuralNetAsp", new DockerImageAssetProps
+              {
+                Directory = Path.Combine(Directory.GetCurrentDirectory(), "..", "NeuralNetAsp")
+              })
+            )
+          },
+          PublicLoadBalancer = true
+        }
+      );
     }
   }
 }
