@@ -14,6 +14,7 @@ namespace NeuralNetAsp.Neural
       this.bias = bias;
     }
 
+
     public double FeedForward(double[] inputs)
     {
       var linearResult = DotProduct(inputs, weights) + bias;

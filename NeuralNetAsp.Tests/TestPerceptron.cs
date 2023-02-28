@@ -51,5 +51,4 @@ public class TestPerceptron
     Assert.AreEqual(expectedResult, actualValue, 1e-5);
 
   }
-
 }
