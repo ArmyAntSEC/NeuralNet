@@ -2,6 +2,9 @@ namespace NeuralNetAsp.Neural
 {
   public class Perceptron
   {
-    public double weight = 0;
+    public static double activationFunction(double input)
+    {
+      return 0;
+    }
   }
 }
