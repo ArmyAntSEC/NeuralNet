@@ -1,15 +1,19 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using NeuralNetAsp.Neural;
 namespace NeuralNetAsp.Tests;
 
 
+[TestClass]
 public class UnitTest1
 {
-  [Fact]
+
+  [TestMethod]
   public void Test1()
   {
     var sut = new Perceptron();
 
-    Assert.Equal(0, sut.weight);
+    Assert.AreEqual(3, 2);
 
   }
 }
