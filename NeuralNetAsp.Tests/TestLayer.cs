@@ -8,7 +8,7 @@ namespace NeuralNetAsp.Tests;
 //https://www.kdnuggets.com/2019/11/build-artificial-neural-network-scratch-part-1.html
 
 [TestClass]
-public class TestNode
+public class TestNetwork
 {
 
   [TestMethod]
@@ -17,7 +17,7 @@ public class TestNode
   [DataRow(-5, 0.00669)]
   public void TestActivationFunction(double inputValue, double expectedValue)
   {
-    Assert.AreEqual(expectedValue, Node.ActivationFunction(inputValue), 1e-5);
+    Assert.AreEqual(expectedValue, Layer.ActivationFunction(inputValue), 1e-5);
   }
 
   [TestMethod]
@@ -25,6 +25,6 @@ public class TestNode
   [DataRow(-5, 0.00665)]
   public void TestActivationFunctionDerivative(double inputValue, double expectedValue)
   {
-    Assert.AreEqual(expectedValue, Node.ActivationFunctionDerivative(inputValue), 1e-5);
+    Assert.AreEqual(expectedValue, Layer.ActivationFunctionDerivative(inputValue), 1e-5);
   }
 }

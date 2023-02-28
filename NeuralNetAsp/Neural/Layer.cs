@@ -2,7 +2,7 @@ using System;
 
 namespace NeuralNetAsp.Neural
 {
-  public class Node
+  public class Layer
   {
     public static double ActivationFunction(double input)
     {
