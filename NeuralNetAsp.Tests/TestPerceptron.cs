@@ -35,23 +35,21 @@ public class TestPerceptron
   [DataRow(new double[] { 1, 2 }, new double[] { 1, 2 }, 5)]
   public void TestDotProduct(double[] a, double[] b, double c)
   {
-    Assert.AreEqual(c, Perceptron.DotProduct(a, b));
+    Assert.AreEqual(c, Perceptron.DotProduct(a, b), 1e-5);
   }
 
-  /*
-  [TestMethod]
-  public void TestPerceptronFeedForward()
-  {
-    var weights = new double[2] { 1, 2 };
-    var inputs = new double[2] { 1, -1 };
-    var bias = -1;
 
+  [TestMethod]
+  [DataRow(new double[2] { 1, 2 }, new double[2] { -1, 1 }, -1, 0.5)]
+  [DataRow(new double[2] { 1, 2 }, new double[2] { 1, 2 }, 0, 0.99331)]
+  public void TestPerceptronFeedForward(double[] inputs, double[] weights, double bias, double expectedResult)
+  {
     var sut = new Perceptron(weights, bias);
 
     var actualValue = sut.FeedForward(inputs);
 
-    Assert.AreEqual(0.5, actualValue);
+    Assert.AreEqual(expectedResult, actualValue, 1e-5);
 
   }
-  */
+
 }

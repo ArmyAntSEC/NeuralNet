@@ -16,7 +16,8 @@ namespace NeuralNetAsp.Neural
 
     public double FeedForward(double[] inputs)
     {
-      return 0;
+      var linearResult = DotProduct(inputs, weights) + bias;
+      return ActivationFunction(linearResult);
     }
 
     public static double DotProduct(double[] a, double[] b)
