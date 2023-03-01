@@ -10,16 +10,6 @@ namespace NeuralNetAsp.Neural
 
     private Perceptron[] perceptrons;
 
-    public ComputingLayer(List<double[]> weights, double[] offsets)
-    {
-      CheckEqual(weights.Count, offsets.Length);
-      this.perceptrons = new Perceptron[offsets.Length];
-      for (var i = 0; i < offsets.Length; i++)
-      {
-        this.perceptrons[i] = new Perceptron(weights[i], offsets[i]);
-      }
-    }
-
     public ComputingLayer(List<PerceptronDefinition> defs)
     {
       this.perceptrons = new Perceptron[defs.Count];

@@ -33,12 +33,14 @@ public class TestLayer
   [TestMethod]
   public void TestCreateComputingLayerSingleInputAndOutput()
   {
-    var weights = new List<double[]> { new double[] { 1.0 } };
-    var offsets = new double[] { -1.0 };
+    var definitions = new List<PerceptronDefinition>() {
+      new PerceptronDefinition( new double[] { 1.0 }, -1 )
+    };
+
     var inputs = new double[] { 1.0 };
     var output = 0.5;
 
-    var sut = new ComputingLayer(weights, offsets);
+    var sut = new ComputingLayer(definitions);
     Assert.IsInstanceOfType(sut, typeof(ILayerBase));
 
     sut.SetInputs(inputs);
@@ -50,12 +52,14 @@ public class TestLayer
   [TestMethod]
   public void TestCreateComputingLayerDoubleInputAndSingleOutput()
   {
-    var weights = new List<double[]> { new double[] { 1.0, 2.0 } };
+    var definitions = new List<PerceptronDefinition>() {
+      new PerceptronDefinition( new double[] { 1.0, 2.0 }, -0 )
+    };
+
     var inputs = new double[] { 1.0, 2.0 };
-    var offsets = new double[] { 0.0 };
     var output = 0.99331;
 
-    var sut = new ComputingLayer(weights, offsets);
+    var sut = new ComputingLayer(definitions);
     Assert.IsInstanceOfType(sut, typeof(ILayerBase));
 
     sut.SetInputs(inputs);
@@ -67,12 +71,15 @@ public class TestLayer
   [TestMethod]
   public void TestCreateComputingLayerSingleInputAndDoubleOutput()
   {
-    var weights = new List<double[]> { new double[] { 1.0 }, new double[] { 2.0 } };
+    var definitions = new List<PerceptronDefinition>() {
+      new PerceptronDefinition( new double[] { 1.0 }, -1 ),
+      new PerceptronDefinition( new double[] { 2.0 }, 3 )
+    };
+
     var inputs = new double[] { 1 };
-    var offsets = new double[] { -1, 3 };
     var outputs = new double[] { 0.5, 0.99331 };
 
-    var sut = new ComputingLayer(weights, offsets);
+    var sut = new ComputingLayer(definitions);
     Assert.IsInstanceOfType(sut, typeof(ILayerBase));
 
     sut.SetInputs(inputs);
