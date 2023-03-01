@@ -64,4 +64,22 @@ public class TestLayer
 
   }
 
+  [TestMethod]
+  public void TestCreateComputingLayerSingleInputAndDoubleOutput()
+  {
+    var weights = new List<double[]> { new double[] { 1.0 }, new double[] { 2.0 } };
+    var inputs = new double[] { 1 };
+    var offsets = new double[] { -1, 3 };
+    var outputs = new double[] { 0.5, 0.99331 };
+
+    var sut = new ComputingLayer(weights, offsets);
+    Assert.IsInstanceOfType(sut, typeof(ILayerBase));
+
+    sut.SetInputs(inputs);
+
+    Assert.AreEqual(outputs[0], sut.GetOutput()[0], 1e-5);
+    Assert.AreEqual(outputs[1], sut.GetOutput()[1], 1e-5);
+
+  }
+
 }
