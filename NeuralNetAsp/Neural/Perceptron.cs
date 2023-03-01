@@ -6,19 +6,30 @@ namespace NeuralNetAsp.Neural
   public class Perceptron
   {
     private double[] weights;
-    private double bias;
+    private double offset;
 
     public Perceptron(double[] weights, double bias)
     {
       this.weights = weights;
-      this.bias = bias;
+      this.offset = bias;
+    }
+
+    public Perceptron(PerceptronDefinition def)
+    {
+      this.weights = def.Weights;
+      this.offset = def.Offset;
     }
 
 
     public double FeedForward(double[] inputs)
     {
-      var linearResult = DotProduct(inputs, weights) + bias;
+      var linearResult = DotProduct(inputs, weights) + offset;
       return ActivationFunction(linearResult);
+    }
+
+    public int GetNumberOfInputs()
+    {
+      return weights.Length;
     }
 
     public static double DotProduct(double[] a, double[] b)
@@ -40,6 +51,26 @@ namespace NeuralNetAsp.Neural
     public static double ActivationFunctionDerivative(double input)
     {
       return ActivationFunction(input) * (1 - ActivationFunction(input));
+    }
+  }
+
+  public class PerceptronDefinition
+  {
+    private readonly double[] weights;
+    public double[] Weights
+    {
+      get { return weights; }
+    }
+
+    private readonly double offset;
+    public double Offset
+    {
+      get { return offset; }
+    }
+    public PerceptronDefinition(double[] weights, double offset)
+    {
+      this.weights = weights;
+      this.offset = offset;
     }
   }
 }

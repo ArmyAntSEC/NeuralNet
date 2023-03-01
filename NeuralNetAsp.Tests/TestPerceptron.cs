@@ -42,13 +42,22 @@ public class TestPerceptron
   [TestMethod]
   [DataRow(new double[2] { 1, 2 }, new double[2] { -1, 1 }, -1, 0.5)]
   [DataRow(new double[2] { 1, 2 }, new double[2] { 1, 2 }, 0, 0.99331)]
-  public void TestPerceptronFeedForward(double[] inputs, double[] weights, double bias, double expectedResult)
+  public void TestPerceptronFeedForward(double[] inputs, double[] weights, double offset, double expectedResult)
   {
-    var sut = new Perceptron(weights, bias);
+    var def = new PerceptronDefinition(weights, offset);
+    var sut = new Perceptron(def);
 
     var actualValue = sut.FeedForward(inputs);
 
     Assert.AreEqual(expectedResult, actualValue, 1e-5);
 
+  }
+
+  [TestMethod]
+  public void TestGetNumberOfInputs()
+  {
+    var def = new PerceptronDefinition(new double[2] { 1, 2 }, 1.0);
+
+    Assert.AreEqual(2, new Perceptron(def).GetNumberOfInputs());
   }
 }

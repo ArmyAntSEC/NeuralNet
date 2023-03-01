@@ -1,12 +1,10 @@
 using System.Collections.Generic;
-using static NeuralNetAsp.Neural.Guard;
+using static NeuralNetAsp.Utils.Guard;
 
 namespace NeuralNetAsp.Neural
 {
   public class ComputingLayer : ILayerBase
   {
-    private List<double[]> weights;
-    private double[] offsets;
 
     private double[] inputs;
 
@@ -15,8 +13,6 @@ namespace NeuralNetAsp.Neural
     public ComputingLayer(List<double[]> weights, double[] offsets)
     {
       CheckEqual(weights.Count, offsets.Length);
-      this.weights = weights;
-      this.offsets = offsets;
       this.perceptrons = new Perceptron[offsets.Length];
       for (var i = 0; i < offsets.Length; i++)
       {
@@ -24,10 +20,19 @@ namespace NeuralNetAsp.Neural
       }
     }
 
+    public ComputingLayer(List<PerceptronDefinition> defs)
+    {
+      this.perceptrons = new Perceptron[defs.Count];
+      for (var i = 0; i < perceptrons.Length; i++)
+      {
+        this.perceptrons[i] = new Perceptron(defs[i]);
+      }
+    }
+
     public double[] GetOutput()
     {
-      var output = new double[offsets.Length];
-      for (int i = 0; i < offsets.Length; i++)
+      var output = new double[perceptrons.Length];
+      for (int i = 0; i < perceptrons.Length; i++)
       {
         output[i] = this.perceptrons[i].FeedForward(inputs);
       }
@@ -36,7 +41,7 @@ namespace NeuralNetAsp.Neural
 
     public void SetInputs(double[] inputs)
     {
-      CheckEqual(inputs.Length, weights[0].Length);
+      CheckEqual(inputs.Length, perceptrons[0].GetNumberOfInputs());
       this.inputs = inputs;
     }
   }

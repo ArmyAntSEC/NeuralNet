@@ -1,4 +1,4 @@
-namespace NeuralNetAsp.Neural
+namespace NeuralNetAsp.Utils
 {
   class Guard
   {
