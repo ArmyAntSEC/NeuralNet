@@ -14,7 +14,7 @@ namespace NeuralNetAsp.Neural
 
     public ComputingLayer(List<double[]> weights, double[] offsets)
     {
-      CheckEqual(weights[0].Length, offsets.Length);
+      CheckEqual(weights.Count, offsets.Length);
       this.weights = weights;
       this.offsets = offsets;
       this.perceptrons = new Perceptron(weights[0], offsets[0]);
@@ -27,7 +27,7 @@ namespace NeuralNetAsp.Neural
 
     public void SetInputs(double[] inputs)
     {
-      CheckEqual(inputs.Length, offsets.Length);
+      CheckEqual(inputs.Length, weights[0].Length);
       this.inputs = inputs;
     }
   }
