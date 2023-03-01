@@ -22,9 +22,9 @@ public class TestLayer
     var input = new double[] { 1, 2, 3 };
 
     var sut = new InputLayer();
-    Assert.IsInstanceOfType(sut, typeof(LayerBase));
+    Assert.IsInstanceOfType(sut, typeof(ILayerBase));
 
-    sut.SetValues(input);
+    sut.SetInputs(input);
 
     Assert.AreEqual(input, sut.GetOutput());
 

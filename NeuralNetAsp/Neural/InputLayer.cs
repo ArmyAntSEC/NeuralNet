@@ -1,22 +1,17 @@
-using System;
-using System.Diagnostics.Contracts;
-
 namespace NeuralNetAsp.Neural
 {
-  public class InputLayer
+  public class InputLayer : ILayerBase
   {
     private double[] values;
 
     public double[] GetOutput()
     {
-      throw new NotImplementedException();
+      return this.values;
     }
 
-    public void SetValues(double[] values)
+    public void SetInputs(double[] inputs)
     {
-      this.values = values;
+      this.values = inputs;
     }
-
-
   }
 }
