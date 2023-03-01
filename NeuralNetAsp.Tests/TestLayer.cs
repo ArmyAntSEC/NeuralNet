@@ -30,4 +30,24 @@ public class TestLayer
 
   }
 
+  [TestMethod]
+  public void TestCreateComputingLayer()
+  {
+
+    var weights = new List<double[]>();
+    weights.Add(new double[] { 1.0 });
+    var offsets = new double[] { -1.0 };
+    var inputs = new double[] { 1.0 };
+    var output = 0.5;
+
+
+    var sut = new ComputingLayer(weights, offsets);
+    Assert.IsInstanceOfType(sut, typeof(ILayerBase));
+
+    sut.SetInputs(inputs);
+
+    Assert.AreEqual(output, sut.GetOutput()[0]);
+
+  }
+
 }
