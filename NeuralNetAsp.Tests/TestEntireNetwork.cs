@@ -22,7 +22,7 @@ public class TestNetwork
 
     var sut = new Network(layers);
 
-    Assert.AreEqual(output, sut.GetOutput(inputs)[0], 1e-5);
+    Assert.AreEqual(output, sut.FeedForward(inputs)[0], 1e-5);
 
   }
 
@@ -48,7 +48,7 @@ public class TestNetwork
 
     var sut = new Network(layers);
 
-    Assert.AreEqual(output, sut.GetOutput(inputs)[0], 1e-5);
+    Assert.AreEqual(output, sut.FeedForward(inputs)[0], 1e-5);
 
   }
 
@@ -75,24 +75,24 @@ public class TestNetwork
 
     var sut = new Network(layers);
 
-    Assert.AreEqual(output, sut.GetOutput(inputs)[0], 1e-5);
+    Assert.AreEqual(output, sut.FeedForward(inputs)[0], 1e-5);
 
   }
 
   [TestMethod]
+  [ExpectedException(typeof(ArgumentException))]
   public void TestNetworkDoubleLayerNotMatching()
   {
     var layerOne = new ComputingLayer(
       new List<PerceptronDefinition>() {
-        new PerceptronDefinition( new double[] { 1.0, -2.0 }, 3 ),
-        new PerceptronDefinition( new double[] { 1.0, -2.0 }, 3 )
+        new PerceptronDefinition( new double[] { 1.0 }, 3 ),
+        new PerceptronDefinition( new double[] { 1.0 }, 3 )
       }
     );
 
     var layerTwo = new ComputingLayer(
       new List<PerceptronDefinition>() {
         new PerceptronDefinition( new double[] { 1.0 }, -1 ),
-        new PerceptronDefinition( new double[] { 1.0 }, -1 )
       }
     );
 

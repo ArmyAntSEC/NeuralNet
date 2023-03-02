@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System;
+using System.Diagnostics;
 using static NeuralNetAsp.Utils.Guard;
 
 namespace NeuralNetAsp.Neural
@@ -11,21 +12,34 @@ namespace NeuralNetAsp.Neural
     {
       Check(layers != null);
       Check(layers.Length > 0);
-      for (var i = 0; i < layers.Length - 1; i++)
+      var layerOutputSize = layers[0].GetOutputSize();
+      for (var i = 1; i < layers.Length; i++)
       {
-        //var thisLayerOutputSize = layers[i].
+        var inputLayerSize = layers[i].GetInputSize();
+        CheckEqual(layerOutputSize, inputLayerSize);
+        layerOutputSize = inputLayerSize;
       }
       this.layers = layers;
     }
 
-    public double[] GetOutput(double[] inputs)
+    public double[] FeedForward(double[] inputs)
     {
       double[] tempStorage = inputs;
       foreach (var layer in layers)
       {
-        tempStorage = layer.GetOutput(tempStorage);
+        tempStorage = layer.FeedForward(tempStorage);
       }
       return tempStorage;
+    }
+
+    public int GetInputSize()
+    {
+      throw new System.NotImplementedException();
+    }
+
+    public int GetOutputSize()
+    {
+      throw new System.NotImplementedException();
     }
   }
 }
