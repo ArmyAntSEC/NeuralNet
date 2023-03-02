@@ -61,4 +61,16 @@ public class TestLayer
 
   }
 
+  [TestMethod]
+  [ExpectedException(typeof(ArgumentException))]
+  public void TestCannotCreateLayerWithdifferentlySizedPerceptrons()
+  {
+    var definitions = new List<PerceptronDefinition>() {
+      new PerceptronDefinition( new double[] { 1.0 }, -1 ),
+      new PerceptronDefinition( new double[] { 2.0, 2 }, 3 )
+    };
+
+    var sut = new ComputingLayer(definitions);
+  }
+
 }

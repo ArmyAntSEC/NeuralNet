@@ -11,7 +11,10 @@ namespace NeuralNetAsp.Neural
     {
       Check(layers != null);
       Check(layers.Length > 0);
-      //TODO: Check that the input size matches the previous output size.
+      for (var i = 0; i < layers.Length - 1; i++)
+      {
+        //var thisLayerOutputSize = layers[i].
+      }
       this.layers = layers;
     }
 

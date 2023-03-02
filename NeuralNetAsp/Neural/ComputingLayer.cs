@@ -10,10 +10,15 @@ namespace NeuralNetAsp.Neural
 
     public ComputingLayer(List<PerceptronDefinition> defs)
     {
+      Check(defs.Count > 0);
+
       this.perceptrons = new Perceptron[defs.Count];
-      for (var i = 0; i < perceptrons.Length; i++)
+      this.perceptrons[0] = new Perceptron(defs[0]);
+
+      for (var i = 1; i < perceptrons.Length; i++)
       {
         this.perceptrons[i] = new Perceptron(defs[i]);
+        CheckEqual(this.perceptrons[i - 1].GetNumberOfInputs(), this.perceptrons[i].GetNumberOfInputs());
       }
     }
 
