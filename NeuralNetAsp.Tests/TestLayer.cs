@@ -8,21 +8,6 @@ namespace NeuralNetAsp.Tests;
 public class TestLayer
 {
   [TestMethod]
-  public void TestCreateInputLayer()
-  {
-
-    var input = new double[] { 1, 2, 3 };
-
-    var sut = new InputLayer();
-    Assert.IsInstanceOfType(sut, typeof(ILayerBase));
-
-    sut.SetInputs(input);
-
-    Assert.AreEqual(input, sut.GetOutput());
-
-  }
-
-  [TestMethod]
   public void TestCreateComputingLayerSingleInputAndOutput()
   {
     var definitions = new List<PerceptronDefinition>() {
@@ -35,9 +20,7 @@ public class TestLayer
     var sut = new ComputingLayer(definitions);
     Assert.IsInstanceOfType(sut, typeof(ILayerBase));
 
-    sut.SetInputs(inputs);
-
-    Assert.AreEqual(output, sut.GetOutput()[0]);
+    Assert.AreEqual(output, sut.GetOutput(inputs)[0]);
 
   }
 
@@ -54,9 +37,7 @@ public class TestLayer
     var sut = new ComputingLayer(definitions);
     Assert.IsInstanceOfType(sut, typeof(ILayerBase));
 
-    sut.SetInputs(inputs);
-
-    Assert.AreEqual(output, sut.GetOutput()[0], 1e-5);
+    Assert.AreEqual(output, sut.GetOutput(inputs)[0], 1e-5);
 
   }
 
@@ -74,10 +55,9 @@ public class TestLayer
     var sut = new ComputingLayer(definitions);
     Assert.IsInstanceOfType(sut, typeof(ILayerBase));
 
-    sut.SetInputs(inputs);
-
-    Assert.AreEqual(outputs[0], sut.GetOutput()[0], 1e-5);
-    Assert.AreEqual(outputs[1], sut.GetOutput()[1], 1e-5);
+    var returnValue = sut.GetOutput(inputs);
+    Assert.AreEqual(outputs[0], returnValue[0], 1e-5);
+    Assert.AreEqual(outputs[1], returnValue[1], 1e-5);
 
   }
 

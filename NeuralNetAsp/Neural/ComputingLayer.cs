@@ -6,8 +6,6 @@ namespace NeuralNetAsp.Neural
   public class ComputingLayer : ILayerBase
   {
 
-    private double[] inputs;
-
     private Perceptron[] perceptrons;
 
     public ComputingLayer(List<PerceptronDefinition> defs)
@@ -19,20 +17,16 @@ namespace NeuralNetAsp.Neural
       }
     }
 
-    public double[] GetOutput()
+    public double[] GetOutput(double[] inputs)
     {
+      CheckEqual(inputs.Length, perceptrons[0].GetNumberOfInputs());
+
       var output = new double[perceptrons.Length];
       for (int i = 0; i < perceptrons.Length; i++)
       {
         output[i] = this.perceptrons[i].FeedForward(inputs);
       }
       return output;
-    }
-
-    public void SetInputs(double[] inputs)
-    {
-      CheckEqual(inputs.Length, perceptrons[0].GetNumberOfInputs());
-      this.inputs = inputs;
     }
   }
 }
