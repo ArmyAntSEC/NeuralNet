@@ -104,17 +104,23 @@ namespace NeuralNetAsp.Neural
       return rValue;
     }
 
-    public double dot(Matrix b)
+    public Matrix dot(Matrix b)
     {
-      CheckEqual(GetHeight(), b.GetHeight());
-      CheckEqual(GetWidth(), b.GetWidth());
+      CheckEqual(GetWidth(), b.GetHeight());
+      CheckEqual(b.GetWidth(), 1);
 
-      var sum = 0.0;
-      for (int i = 0; i < GetHeight(); i++)
+
+      var rValue = new MutableMatrix(GetHeight(), 1);
+      for (int j = 0; j < GetHeight(); j++)
       {
-        sum += Get(i, 0) * b.Get(i, 0);
+        var sum = 0.0;
+        for (int i = 0; i < b.GetHeight(); i++)
+        {
+          sum += Get(j, i) * b.Get(i, 0);
+        }
+        rValue.Set(j, 0, sum);
       }
-      return sum;
+      return rValue;
     }
   }
 

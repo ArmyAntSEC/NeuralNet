@@ -18,14 +18,40 @@ public class TestMathCore
 
 
   [TestMethod]
-  [DataRow(new double[] { 2 }, new double[] { 2 }, 4)]
-  [DataRow(new double[] { 1, 2 }, new double[] { 1, 2 }, 5)]
-  public void TestDotProduct(double[] a, double[] b, double c)
+  public void TestDotProductColumns()
   {
-    var matrixOne = new Matrix(a);
-    var matrixTwo = new Matrix(b);
+    var matrixOne = new MutableMatrix(1, 3);
+    var matrixTwo = new MutableMatrix(3, 1);
+    for (var i = 0; i < 3; i++)
+    {
+      matrixOne.Set(i, i);
+      matrixTwo.Set(i, i);
+    }
 
-    Assert.AreEqual(c, matrixOne.dot(matrixTwo), 1e-5);
+    var result = matrixOne.dot(matrixTwo);
+    Assert.AreEqual(5, result.Get(0, 0), 1e-5);
+  }
+
+  [TestMethod]
+  public void TestDotProductColumnAndRow()
+  {
+
+    var matrixOne = new MutableMatrix(2, 3);
+    var matrixTwo = new MutableMatrix(3, 1);
+
+    for (int i = 0; i < 6; i++)
+    {
+      matrixOne.Set(i, i);
+      if (i < 3)
+      {
+        matrixTwo.Set(i, i);
+      }
+    }
+
+    var matrixThree = matrixOne.dot(matrixTwo);
+
+    Assert.AreEqual(10, matrixThree.Get(0, 0));
+    Assert.AreEqual(13, matrixThree.Get(1, 0));
   }
 
   [TestMethod]
