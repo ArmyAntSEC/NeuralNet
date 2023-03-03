@@ -1,14 +1,43 @@
 using System;
+using static NeuralNetAsp.Utils.Guard;
 
 namespace NeuralNetAsp.Neural
 {
+  //This class is designed to not have any inplace operators, meaning the udnerlying data storage becomes read-only.
   public class Matrix
   {
-    private double[,] data;
+
+    protected readonly double[,] data;
 
     public Matrix(int height, int width)
     {
       data = new double[height, width];
+    }
+
+    public Matrix(double[] input) : this(input.Length, 1)
+    {
+      var height = GetHeight();
+
+      for (int j = 0; j < height; j++)
+      {
+        data[j, 0] = input[j];
+      }
+    }
+
+
+    public Matrix(Matrix m)
+    {
+      var height = m.GetHeight();
+      var width = m.GetWidth();
+
+      data = new double[height, width];
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          data[j, i] = m.Get(j, i);
+        }
+      }
     }
 
     public double Get(int row, int column)
@@ -16,12 +45,12 @@ namespace NeuralNetAsp.Neural
       return data[row, column];
     }
 
-    public double GetWidth()
+    public int GetWidth()
     {
       return data.GetLength(1);
     }
 
-    public double GetHeight()
+    public int GetHeight()
     {
       return data.GetLength(0);
     }
@@ -43,6 +72,74 @@ namespace NeuralNetAsp.Neural
     public static Matrix generateZeroMatrix(int height, int width)
     {
       return new Matrix(height, width);
+    }
+
+    public static Matrix generateOnesMatrix(int height, int width)
+    {
+      var rValue = new Matrix(height, width);
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          rValue.data[j, i] = 1;
+        }
+      }
+      return rValue;
+    }
+
+
+    public Matrix times(double factor)
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+
+      var rValue = new MutableMatrix(height, width);
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          rValue.Set(j, i, this.Get(j, i) * factor);
+        }
+      }
+      return rValue;
+    }
+
+    public double dot(Matrix b)
+    {
+      CheckEqual(GetHeight(), b.GetHeight());
+      CheckEqual(GetWidth(), b.GetWidth());
+
+      var sum = 0.0;
+      for (int i = 0; i < GetHeight(); i++)
+      {
+        sum += Get(i, 0) * b.Get(i, 0);
+      }
+      return sum;
+    }
+  }
+
+  public class MutableMatrix : Matrix
+  {
+    public MutableMatrix(int height, int width) : base(height, width)
+    {
+    }
+
+    public MutableMatrix(Matrix matrix) : base(matrix)
+    {
+
+    }
+
+    public void Set(int row, int column, double value)
+    {
+      this.data[row, column] = value;
+    }
+
+    public void Set(int idx, double value)
+    {
+      var column = idx / GetHeight();
+      var row = idx - column * GetHeight();
+
+      this.data[row, column] = value;
     }
   }
 }

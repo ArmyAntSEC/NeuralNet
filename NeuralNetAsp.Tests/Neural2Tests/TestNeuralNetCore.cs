@@ -33,4 +33,24 @@ public class TestNeuralNetCore
     Assert.AreEqual(parameters.biasLayerTwo.GetHeight(), outputSize);
     Assert.AreEqual(parameters.biasLayerTwo.GetWidth(), 1);
   }
+
+  [TestMethod]
+  public void testForwardPropagation()
+  {
+    var inputSize = 3;
+    var hiddenSize = 2;
+    var outputSize = 1;
+
+    var firstLayer = Matrix.generateOnesMatrix(hiddenSize, inputSize).times(2);
+    var firstBias = Matrix.generateOnesMatrix(hiddenSize, 1).times(4);
+    var secondLayer = Matrix.generateOnesMatrix(outputSize, hiddenSize).times(3);
+    var secondBias = Matrix.generateOnesMatrix(outputSize, 1).times(5);
+
+    var input = Matrix.generateOnesMatrix(inputSize, 1).times(6);
+
+    var parameters = new NetworkParameters(firstLayer, firstBias, secondLayer, secondBias);
+
+    var feedForwardResult = NeuralNetCore.feedForward(input, parameters);
+
+  }
 }

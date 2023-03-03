@@ -4,6 +4,10 @@ namespace NeuralNetAsp.Neural
 {
   public class NeuralNetCore
   {
+    public static Matrix feedForward(Matrix input, NetworkParameters parameters)
+    {
+      return input;
+    }
   }
 
   public class NetworkParameters
@@ -38,6 +42,14 @@ namespace NeuralNetAsp.Neural
       biasLayerOneParam = Matrix.generateZeroMatrix(hiddenSize, 1);
       weightsLayerTwoParam = Matrix.generateRandomMatrix(outputSize, hiddenSize);
       biasLayerTwoParam = Matrix.generateZeroMatrix(outputSize, 1);
+    }
+
+    public NetworkParameters(Matrix weightsLayerOne, Matrix biasLayerOne, Matrix weightsLayerTwo, Matrix biasLayerTwo)
+    {
+      this.weightsLayerOneParam = weightsLayerOne;
+      this.biasLayerOneParam = biasLayerOne;
+      this.weightsLayerTwoParam = weightsLayerTwo;
+      this.biasLayerTwoParam = biasLayerTwo;
     }
 
 

@@ -373,7 +373,7 @@ namespace Medallion
       public static ThreadLocalRandom Current { get { return currentInstance ?? (currentInstance = new ThreadLocalRandom()); } }
 
       private ThreadLocalRandom()
-          : base(Seed: HashCombine(HashCombine(SeedTime.GetHashCode(), Thread.CurrentThread.ManagedThreadId), Environment.TickCount))
+          : base(Seed: HashCombine(HashCombine(SeedTime.GetHashCode(), Environment.CurrentManagedThreadId), Environment.TickCount))
       {
       }
 
