@@ -8,17 +8,36 @@ namespace NeuralNetAsp.Neural
 
   public class NetworkParameters
   {
-    public double[,] weightsLayerOne;
-    public double[,] biasLayerOne;
-    public double[,] weightsLayerTwo;
-    public double[,] biasLayerTwo;
+    private double[,] weightsLayerOneParam;
+    public double[,] weightsLayerOne
+    {
+      get { return weightsLayerOneParam; }
+    }
+
+    private double[,] biasLayerOneParam;
+    public double[,] biasLayerOne
+    {
+      get { return biasLayerOneParam; }
+    }
+
+    private double[,] weightsLayerTwoParam;
+    public double[,] weightsLayerTwo
+    {
+      get { return weightsLayerTwoParam; }
+    }
+
+    private double[,] biasLayerTwoParam;
+    public double[,] biasLayerTwo
+    {
+      get { return biasLayerTwoParam; }
+    }
 
     public NetworkParameters(int inputSize, int hiddenSize, int outputSize)
     {
-      weightsLayerOne = MathCore.generateRandomMatrix(hiddenSize, inputSize);
-      biasLayerOne = MathCore.generateZeroMatrix(hiddenSize, 1);
-      weightsLayerTwo = MathCore.generateRandomMatrix(outputSize, hiddenSize);
-      biasLayerTwo = MathCore.generateZeroMatrix(outputSize, 1);
+      weightsLayerOneParam = MathCore.generateRandomMatrix(hiddenSize, inputSize);
+      biasLayerOneParam = MathCore.generateZeroMatrix(hiddenSize, 1);
+      weightsLayerTwoParam = MathCore.generateRandomMatrix(outputSize, hiddenSize);
+      biasLayerTwoParam = MathCore.generateZeroMatrix(outputSize, 1);
     }
 
 
