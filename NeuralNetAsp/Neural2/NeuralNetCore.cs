@@ -6,7 +6,11 @@ namespace NeuralNetAsp.Neural
   {
     public static Matrix feedForward(Matrix input, NetworkParameters parameters)
     {
-      return input;
+      var firstStepLinear = parameters.weightsLayerOne.dot(input).plus(parameters.biasLayerOne);
+      var firstStep = firstStepLinear.tanh();
+      var secondStepLinear = parameters.weightsLayerTwo.dot(firstStep).plus(parameters.biasLayerTwo);
+      var secondStep = secondStepLinear.tanh();
+      return secondStep;
     }
   }
 

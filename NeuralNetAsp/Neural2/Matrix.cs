@@ -55,6 +55,14 @@ namespace NeuralNetAsp.Neural
       return data.GetLength(0);
     }
 
+    public double Get(int idx)
+    {
+      var column = idx / GetHeight();
+      var row = idx - column * GetHeight();
+
+      return this.data[row, column];
+    }
+
     public static Matrix generateRandomMatrix(int height, int width)
     {
       var randomGenerator = Medallion.Rand.Create();
@@ -100,6 +108,37 @@ namespace NeuralNetAsp.Neural
         {
           rValue.Set(j, i, this.Get(j, i) * factor);
         }
+      }
+      return rValue;
+    }
+
+    public Matrix plus(Matrix term)
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+      CheckEqual(height, term.GetHeight());
+      CheckEqual(width, term.GetWidth());
+
+      var rValue = new MutableMatrix(height, width);
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          rValue.Set(j, i, this.Get(j, i) + term.Get(j, i));
+        }
+      }
+      return rValue;
+    }
+
+    public Matrix tanh()
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+
+      var rValue = new MutableMatrix(height, width);
+      for (int i = 0; i < width * height; i++)
+      {
+        rValue.Set(i, Math.Tanh(this.Get(i)));
       }
       return rValue;
     }

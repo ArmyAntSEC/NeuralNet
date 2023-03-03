@@ -70,9 +70,11 @@ public class TestMathCore
 
     matrix.Set(1, 3);
     Assert.AreEqual(3, matrix.Get(1, 0));
+    Assert.AreEqual(3, matrix.Get(1));
 
     matrix.Set(4, 2);
     Assert.AreEqual(2, matrix.Get(1, 1));
+    Assert.AreEqual(2, matrix.Get(4));
   }
 
   [TestMethod]
@@ -191,6 +193,28 @@ public class TestMathCore
       {
         Assert.AreEqual(matrix2.Get(j, i), factor * matrix.Get(j, i), 1e-5);
       }
+    }
+  }
+
+  [TestMethod]
+  public void testMatrixAddition()
+  {
+    var height = 2;
+    var width = 3;
+
+    var matrix = new MutableMatrix(height, width);
+    var matrix2 = new MutableMatrix(height, width);
+    for (int i = 0; i < height * width; i++)
+    {
+      matrix.Set(i, i);
+      matrix2.Set(i, i);
+    }
+
+    var matrix3 = matrix.plus(matrix2);
+
+    for (int i = 0; i < width * height; i++)
+    {
+      Assert.AreEqual(2 * i, matrix3.Get(i), 1e-5);
     }
   }
 }

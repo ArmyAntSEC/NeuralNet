@@ -41,16 +41,20 @@ public class TestNeuralNetCore
     var hiddenSize = 2;
     var outputSize = 1;
 
-    var firstLayer = Matrix.generateOnesMatrix(hiddenSize, inputSize).times(2);
-    var firstBias = Matrix.generateOnesMatrix(hiddenSize, 1).times(4);
-    var secondLayer = Matrix.generateOnesMatrix(outputSize, hiddenSize).times(3);
-    var secondBias = Matrix.generateOnesMatrix(outputSize, 1).times(5);
+    var firstLayer = Matrix.generateOnesMatrix(hiddenSize, inputSize).times(0.1);
+    var firstBias = Matrix.generateOnesMatrix(hiddenSize, 1).times(0.2);
+    var secondLayer = Matrix.generateOnesMatrix(outputSize, hiddenSize).times(0.3);
+    var secondBias = Matrix.generateOnesMatrix(outputSize, 1).times(0.4);
 
-    var input = Matrix.generateOnesMatrix(inputSize, 1).times(6);
+    var input = Matrix.generateOnesMatrix(inputSize, 1).times(0.5);
 
     var parameters = new NetworkParameters(firstLayer, firstBias, secondLayer, secondBias);
 
     var feedForwardResult = NeuralNetCore.feedForward(input, parameters);
+
+    Assert.AreEqual(1, feedForwardResult.GetHeight());
+    Assert.AreEqual(1, feedForwardResult.GetWidth());
+    Assert.AreEqual(0.538347, feedForwardResult.Get(0, 0), 1e-5);
 
   }
 }
