@@ -20,24 +20,5 @@ namespace NeuralNetAsp.Neural
     {
       return 1 / (1 + Math.Exp(-input));
     }
-
-    public static double[,] generateRandomMatrix(int height, int width)
-    {
-      var randomGenerator = Medallion.Rand.Create();
-      var rValue = new double[height, width];
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue[j, i] = Medallion.Rand.NextGaussian(randomGenerator);
-        }
-      }
-      return rValue;
-    }
-
-    public static double[,] generateZeroMatrix(int height, int width)
-    {
-      return new double[height, width];
-    }
   }
 }

@@ -40,17 +40,17 @@ public class TestMathCore
     var height = 3;
     var width = 2;
 
-    var matrix = MathCore.generateRandomMatrix(height, width);
-    Assert.AreEqual(matrix.GetLength(0), height);
-    Assert.AreEqual(matrix.GetLength(1), width);
+    var matrix = Matrix.generateRandomMatrix(height, width);
+    Assert.AreEqual(matrix.GetHeight(), height);
+    Assert.AreEqual(matrix.GetWidth(), width);
 
-    var matrix2 = MathCore.generateRandomMatrix(height, width);
+    var matrix2 = Matrix.generateRandomMatrix(height, width);
     for (int i = 0; i < width; i++)
     {
       for (int j = 0; j < height; j++)
       {
-        Assert.AreNotEqual(matrix[j, i], 0);
-        Assert.AreNotEqual(matrix[j, i], matrix2[j, i]);
+        Assert.AreNotEqual(matrix.Get(j, i), 0);
+        Assert.AreNotEqual(matrix.Get(j, i), matrix2.Get(j, i));
       }
     }
   }
@@ -61,16 +61,16 @@ public class TestMathCore
     var height = 3;
     var width = 2;
 
-    var matrix = MathCore.generateZeroMatrix(height, width);
+    var matrix = Matrix.generateZeroMatrix(height, width);
 
-    Assert.AreEqual(matrix.GetLength(0), height);
-    Assert.AreEqual(matrix.GetLength(1), width);
+    Assert.AreEqual(matrix.GetHeight(), height);
+    Assert.AreEqual(matrix.GetWidth(), width);
 
     for (int i = 0; i < width; i++)
     {
       for (int j = 0; j < height; j++)
       {
-        Assert.AreEqual(matrix[j, i], 0);
+        Assert.AreEqual(matrix.Get(j, i), 0);
       }
     }
   }

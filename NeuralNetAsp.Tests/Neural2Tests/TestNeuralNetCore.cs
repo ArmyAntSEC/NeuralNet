@@ -21,12 +21,16 @@ public class TestNeuralNetCore
 
     var parameters = new NetworkParameters(inputSize, hiddenSize, outputSize);
 
-    Assert.AreEqual(parameters.weightsLayerOne.GetLength(0), hiddenSize);
-    Assert.AreEqual(parameters.weightsLayerOne.GetLength(1), inputSize);
+    Assert.AreEqual(parameters.weightsLayerOne.GetHeight(), hiddenSize);
+    Assert.AreEqual(parameters.weightsLayerOne.GetWidth(), inputSize);
 
-    Assert.AreEqual(parameters.weightsLayerTwo.GetLength(0), outputSize);
-    Assert.AreEqual(parameters.weightsLayerTwo.GetLength(1), hiddenSize);
+    Assert.AreEqual(parameters.biasLayerOne.GetHeight(), hiddenSize);
+    Assert.AreEqual(parameters.biasLayerOne.GetWidth(), 1);
 
+    Assert.AreEqual(parameters.weightsLayerTwo.GetHeight(), outputSize);
+    Assert.AreEqual(parameters.weightsLayerTwo.GetWidth(), hiddenSize);
+
+    Assert.AreEqual(parameters.biasLayerTwo.GetHeight(), outputSize);
+    Assert.AreEqual(parameters.biasLayerTwo.GetWidth(), 1);
   }
-
 }
