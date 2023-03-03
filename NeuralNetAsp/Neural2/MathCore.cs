@@ -34,5 +34,10 @@ namespace NeuralNetAsp.Neural
       }
       return rValue;
     }
+
+    public static double[,] generateZeroMatrix(int height, int width)
+    {
+      return new double[height, width];
+    }
   }
 }

@@ -55,4 +55,23 @@ public class TestMathCore
     }
   }
 
+  [TestMethod]
+  public void testGenerateZeroMatrix()
+  {
+    var height = 3;
+    var width = 2;
+
+    var matrix = MathCore.generateZeroMatrix(height, width);
+
+    Assert.AreEqual(matrix.GetLength(0), height);
+    Assert.AreEqual(matrix.GetLength(1), width);
+
+    for (int i = 0; i < width; i++)
+    {
+      for (int j = 0; j < height; j++)
+      {
+        Assert.AreEqual(matrix[j, i], 0);
+      }
+    }
+  }
 }
