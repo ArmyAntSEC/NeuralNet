@@ -9,6 +9,9 @@ namespace NeuralNetAsp.Neural
 
     protected readonly double[,] data;
 
+    public Matrix() : this(0, 0)
+    { }
+
     public Matrix(int height, int width)
     {
       data = new double[height, width];

@@ -11,6 +11,31 @@ namespace NeuralNetAsp.Tests;
 [TestClass]
 public class TestNeuralNetCore
 {
+  int inputSize;
+  int hiddenSize;
+  int outputSize;
+
+  Matrix firstLayer;
+  Matrix firstBias;
+  Matrix secondLayer;
+  Matrix secondBias;
+
+  NetworkParameters parameters;
+
+
+  public TestNeuralNetCore()
+  {
+    inputSize = 3;
+    hiddenSize = 2;
+    outputSize = 1;
+
+    firstLayer = Matrix.generateOnesMatrix(hiddenSize, inputSize).times(0.1);
+    firstBias = Matrix.generateOnesMatrix(hiddenSize, 1).times(0.2);
+    secondLayer = Matrix.generateOnesMatrix(outputSize, hiddenSize).times(0.3);
+    secondBias = Matrix.generateOnesMatrix(outputSize, 1).times(0.4);
+
+    parameters = new NetworkParameters(firstLayer, firstBias, secondLayer, secondBias);
+  }
 
   [TestMethod]
   public void testCreateNetworkParams()
@@ -37,18 +62,8 @@ public class TestNeuralNetCore
   [TestMethod]
   public void testForwardPropagation()
   {
-    var inputSize = 3;
-    var hiddenSize = 2;
-    var outputSize = 1;
-
-    var firstLayer = Matrix.generateOnesMatrix(hiddenSize, inputSize).times(0.1);
-    var firstBias = Matrix.generateOnesMatrix(hiddenSize, 1).times(0.2);
-    var secondLayer = Matrix.generateOnesMatrix(outputSize, hiddenSize).times(0.3);
-    var secondBias = Matrix.generateOnesMatrix(outputSize, 1).times(0.4);
 
     var input = Matrix.generateOnesMatrix(inputSize, 1).times(0.5);
-
-    var parameters = new NetworkParameters(firstLayer, firstBias, secondLayer, secondBias);
 
     var feedForwardResult = NeuralNetCore.feedForward(input, parameters);
 
@@ -57,4 +72,17 @@ public class TestNeuralNetCore
     Assert.AreEqual(0.538347, feedForwardResult.Get(0, 0), 1e-5);
 
   }
+
+  [TestMethod]
+  public void testComputeCrossEntropyCost()
+  {
+    var answer = new MutableMatrix(1, 1);
+    answer.Set(0, 0.538347);
+
+    var expectedAnswer = new MutableMatrix(1, 1);
+    expectedAnswer.Set(0, 3);
+
+    var cost = NeuralNetCore.computeCrossEntropyCost(answer, expectedAnswer, parameters);
+  }
+
 }

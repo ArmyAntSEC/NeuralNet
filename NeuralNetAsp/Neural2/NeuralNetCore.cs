@@ -1,9 +1,18 @@
 using System;
+using static NeuralNetAsp.Utils.Guard;
 
 namespace NeuralNetAsp.Neural
 {
   public class NeuralNetCore
   {
+    public static Matrix computeCrossEntropyCost(MutableMatrix answer, MutableMatrix expectedAnswer, NetworkParameters parameters)
+    {
+      CheckEqual(answer.GetWidth(), expectedAnswer.GetWidth());
+      CheckEqual(answer.GetHeight(), expectedAnswer.GetHeight());
+
+      return null;
+    }
+
     public static Matrix feedForward(Matrix input, NetworkParameters parameters)
     {
       var firstStepLinear = parameters.weightsLayerOne.dot(input).plus(parameters.biasLayerOne);
