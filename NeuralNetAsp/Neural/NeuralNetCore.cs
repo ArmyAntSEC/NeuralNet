@@ -36,7 +36,17 @@ namespace NeuralNetAsp.Neural
       return new Deltas(layerOneDelta, layerTwoDelta, errorVal.Get(0));
     }
 
-    public static Matrix computeSingleCorrection(Matrix weights, double alpha, Matrix layer, Matrix layer2_delta)
+    public static NetworkParameters computeNewWeights(NetworkParameters parameters, Matrix input, double alpha, FeedForwardResult feedForwardResult, Deltas deltas)
+    {
+      var newWeightsLayerOne = computenewWeightsSingleLayer(parameters.WeightsLayerOne,
+        alpha, input, deltas.LayerOneDelta);
+      var newWeightsLayerTwo = computenewWeightsSingleLayer(parameters.WeightsLayerTwo,
+        alpha, feedForwardResult.LayerOne, deltas.LayerTwoDelta);
+
+      return new NetworkParameters(newWeightsLayerOne, newWeightsLayerTwo);
+    }
+
+    public static Matrix computenewWeightsSingleLayer(Matrix weights, double alpha, Matrix layer, Matrix layer2_delta)
     {
       var inner = layer.transpose().mtimes(layer2_delta);
       var correction = inner.times(-alpha);

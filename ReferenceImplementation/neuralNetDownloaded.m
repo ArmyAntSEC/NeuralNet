@@ -69,9 +69,9 @@ for iter=1:1000000
 
     %adjust values
     errorval = mean(abs(layer2_error));
-    syn1 = syn1 - alpha.*(layer1.'*layer2_delta);
     syn0 = syn0 - alpha.*(layer0.'*layer1_delta);
-
+    syn1 = syn1 - alpha.*(layer1.'*layer2_delta);
+    
     if errorval<error_tolerance
         fprintf("Stopping at: %f error\n", errorval)
         break

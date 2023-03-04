@@ -15,7 +15,7 @@ public class TestNeuralNetCore
   int hiddenSize;
   int outputSize;
 
-  int numberOfTrainingCases;
+  double alpha;
 
   Matrix firstLayerWeights;
 
@@ -32,7 +32,8 @@ public class TestNeuralNetCore
     inputSize = 5;
     hiddenSize = 4;
     outputSize = 1;
-    numberOfTrainingCases = 5;
+
+    alpha = 0.001;
 
     trainingDataInput = new Matrix(new double[,] {
       {-0.33, 0.69, 0, 1},
@@ -185,7 +186,7 @@ public class TestNeuralNetCore
       {5, 6}
     });
 
-    Matrix newWeights = NeuralNetCore.computeSingleCorrection(weights, alpha, layer, layer2_delta);
+    Matrix newWeights = NeuralNetCore.computenewWeightsSingleLayer(weights, alpha, layer, layer2_delta);
 
     Assert.AreEqual(weights.GetHeight(), newWeights.GetHeight());
     Assert.AreEqual(weights.GetWidth(), newWeights.GetWidth());
@@ -195,6 +196,30 @@ public class TestNeuralNetCore
     Assert.AreEqual(1.9560, newWeights.Get(0, 1), 1e-4);
     Assert.AreEqual(3.9440, newWeights.Get(1, 1), 1e-4);
 
+  }
+
+
+  [TestMethod]
+  public void testComputeBothAllweightCorrectionsTestDataset()
+  {
+    var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, parameters);
+
+    var deltas = NeuralNetCore.computeDeltas(feedForwardResult, parameters, trainingDataOutput);
+
+    var updatedParams = NeuralNetCore.computeNewWeights(parameters, trainingDataInput, alpha, feedForwardResult, deltas);
+
+    Assert.AreEqual(parameters.WeightsLayerOne.GetHeight(), updatedParams.WeightsLayerOne.GetHeight());
+    Assert.AreEqual(parameters.WeightsLayerOne.GetWidth(), updatedParams.WeightsLayerOne.GetWidth());
+
+    Assert.AreEqual(parameters.WeightsLayerTwo.GetHeight(), updatedParams.WeightsLayerTwo.GetHeight());
+    Assert.AreEqual(parameters.WeightsLayerTwo.GetWidth(), updatedParams.WeightsLayerTwo.GetWidth());
+
+    Assert.AreEqual(-0.1659, updatedParams.WeightsLayerOne.Get(0, 0), 1e-4);
+    Assert.AreEqual(-0.3954, updatedParams.WeightsLayerOne.Get(3, 0), 1e-4);
+    Assert.AreEqual(0.3704, updatedParams.WeightsLayerOne.Get(3, 2), 1e-4);
+
+    Assert.AreEqual(-0.5909, updatedParams.WeightsLayerTwo.Get(0, 0), 1e-4);
+    Assert.AreEqual(-0.9451, updatedParams.WeightsLayerTwo.Get(2, 0), 1e-4);
   }
 
 
