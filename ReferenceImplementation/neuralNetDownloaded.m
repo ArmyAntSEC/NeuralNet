@@ -32,13 +32,13 @@ hiddenlayersize=3;
 syn0 = 2*rand(inputlayersize,hiddenlayersize) - 1; %random matrix, inputlayersize X hiddenlayersize
 syn1 = 2*rand(hiddenlayersize,outputlayersize) - 1; %random matrix, hiddenlayersize X outputlayersize
 
-%% feedforward training and testing data
+%% feedforward training data
 layer0=trainingdata_inputs;
 layer1=(1)./(1+exp(-1.*(layer0*syn0)));
 layer2=(1)./(1+exp(-1.*(layer1*syn1)));
 err = sqrt(sum((layer2-trainingdata_outputs).^2));
 fprintf("Untrained: Mean Squared Error with Trainingdata: %f\n", err)
-
+%% feedforward testing data
 layer0=testingdata_inputs;
 layer1=(1)./(1+exp(-1.*(layer0*syn0)));
 layer2=(1)./(1+exp(-1.*(layer1*syn1)));

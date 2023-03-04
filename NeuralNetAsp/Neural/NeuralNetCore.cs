@@ -13,12 +13,10 @@ namespace NeuralNetAsp.Neural
       return null;
     }
 
-    public static Matrix feedForward(Matrix input, NetworkParameters parameters)
+    public static Matrix feedForward(Matrix input, Matrix weightsOne, Matrix weightsTwo)
     {
-      var stepOne = input.mtimes(parameters.weightsLayerOne).times(-1);
-      var stepTwo = stepOne.exp().plus(1);
-      var layerOne = stepTwo.elementPower(-1);
-      return layerOne;
+      var stepOne = feedForwardSingleLayer(input, weightsOne);
+      return feedForwardSingleLayer(stepOne, weightsTwo);
     }
 
     public static Matrix feedForwardSingleLayer(Matrix input, Matrix weights)

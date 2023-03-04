@@ -41,8 +41,18 @@ public class TestNeuralNetCore
       {-0.33, 0.67, 1, 1},
       });
 
-    firstLayer = Matrix.generateRandomMatrix(hiddenSize, inputSize);
-    secondLayer = Matrix.generateRandomMatrix(outputSize, hiddenSize);
+    firstLayer = new Matrix(new double[,] {
+      {-0.1660, -0.7065, -0.2065},
+      {0.4406, -0.8153, 0.0776},
+      {-0.9998, -0.6275, -0.1616},
+      {-0.3953, -0.3089, 0.3704}
+    });
+
+    secondLayer = new Matrix(new double[,] {
+      {-0.5911},
+      {0.7562},
+      {-0.9452}
+    });
 
     parameters = new NetworkParameters(firstLayer, secondLayer);
   }
@@ -79,22 +89,29 @@ public class TestNeuralNetCore
   }
 
   [TestMethod]
-  public void testForwardPropagationSampleDataSet()
+  public void testForwardSingleLayerSampleDataSet()
   {
+    var feedForwardResult = NeuralNetCore.feedForwardSingleLayer(trainingDataInput, firstLayer);
 
-    var weightsOne = new Matrix(new double[,] { { 0.1, 0.2 }, { 0.3, 0.4 } });
-    var input = new Matrix(new double[3, 2] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
-    var feedForwardResult = NeuralNetCore.feedForwardSingleLayer(input, weightsOne);
+    Assert.AreEqual(3, feedForwardResult.GetWidth());
+    Assert.AreEqual(5, feedForwardResult.GetHeight());
 
-    Assert.AreEqual(2, feedForwardResult.GetWidth());
-    Assert.AreEqual(3, feedForwardResult.GetHeight());
+    Assert.AreEqual(0.4909, feedForwardResult.Get(0, 0), 1e-4);
+    Assert.AreEqual(0.2602, feedForwardResult.Get(4, 0), 1e-4);
+    Assert.AreEqual(0.5815, feedForwardResult.Get(4, 2), 1e-4);
 
-    Assert.AreEqual(0.6682, feedForwardResult.Get(0), 1e-4);
-    Assert.AreEqual(0.8176, feedForwardResult.Get(1), 1e-4);
-    Assert.AreEqual(0.9089, feedForwardResult.Get(2), 1e-4);
-    Assert.AreEqual(0.7311, feedForwardResult.Get(3), 1e-4);
-    Assert.AreEqual(0.9002, feedForwardResult.Get(4), 1e-4);
-    Assert.AreEqual(0.9677, feedForwardResult.Get(5), 1e-4);
+  }
+
+  [TestMethod]
+  public void testForwardDoubleLayerSampleDataSet()
+  {
+    var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, firstLayer, secondLayer);
+
+    Assert.AreEqual(1, feedForwardResult.GetWidth());
+    Assert.AreEqual(5, feedForwardResult.GetHeight());
+
+    Assert.AreEqual(0.3508, feedForwardResult.Get(0), 1e-4);
+    Assert.AreEqual(0.3694, feedForwardResult.Get(4), 1e-4);
   }
 
   [TestMethod]
