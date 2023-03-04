@@ -21,10 +21,10 @@ namespace NeuralNetAsp.Neural
       return numerator.elementMult(inverseDenominator);
     }
 
-    public static Matrix feedForward(Matrix input, Matrix weightsOne, Matrix weightsTwo)
+    public static FeedForwardResult feedForward(Matrix input, NetworkParameters parameters)
     {
-      var stepOne = feedForwardSingleLayer(input, weightsOne);
-      return feedForwardSingleLayer(stepOne, weightsTwo);
+      var layerOne = feedForwardSingleLayer(input, parameters.weightsLayerOne);
+      return new FeedForwardResult(layerOne, feedForwardSingleLayer(layerOne, parameters.weightsLayerTwo));
     }
 
     public static Matrix feedForwardSingleLayer(Matrix input, Matrix weights)
@@ -61,7 +61,26 @@ namespace NeuralNetAsp.Neural
       this.weightsLayerOneParam = weightsLayerOne;
       this.weightsLayerTwoParam = weightsLayerTwo;
     }
+  }
 
+  public class FeedForwardResult
+  {
+    private Matrix layerOneInternal;
+    public Matrix LayerOne
+    {
+      get { return layerOneInternal; }
+    }
 
+    private Matrix layerTwoInternal;
+    public Matrix LayerTwo
+    {
+      get { return layerTwoInternal; }
+    }
+
+    public FeedForwardResult(Matrix layerOne, Matrix layerTwo)
+    {
+      this.layerOneInternal = layerOne;
+      this.layerTwoInternal = layerTwo;
+    }
   }
 }

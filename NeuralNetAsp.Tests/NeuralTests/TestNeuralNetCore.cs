@@ -17,9 +17,9 @@ public class TestNeuralNetCore
 
   int numberOfTrainingCases;
 
-  Matrix firstLayer;
+  Matrix firstLayerWeights;
 
-  Matrix secondLayer;
+  Matrix secondLayerWeights;
 
   Matrix trainingDataInput;
 
@@ -41,20 +41,20 @@ public class TestNeuralNetCore
       {-0.33, 0.67, 1, 1},
       });
 
-    firstLayer = new Matrix(new double[,] {
+    firstLayerWeights = new Matrix(new double[,] {
       {-0.1660, -0.7065, -0.2065},
       {0.4406, -0.8153, 0.0776},
       {-0.9998, -0.6275, -0.1616},
       {-0.3953, -0.3089, 0.3704}
     });
 
-    secondLayer = new Matrix(new double[,] {
+    secondLayerWeights = new Matrix(new double[,] {
       {-0.5911},
       {0.7562},
       {-0.9452}
     });
 
-    parameters = new NetworkParameters(firstLayer, secondLayer);
+    parameters = new NetworkParameters(firstLayerWeights, secondLayerWeights);
   }
 
   [TestMethod]
@@ -89,29 +89,21 @@ public class TestNeuralNetCore
   }
 
   [TestMethod]
-  public void testForwardSingleLayerSampleDataSet()
-  {
-    var feedForwardResult = NeuralNetCore.feedForwardSingleLayer(trainingDataInput, firstLayer);
-
-    Assert.AreEqual(3, feedForwardResult.GetWidth());
-    Assert.AreEqual(5, feedForwardResult.GetHeight());
-
-    Assert.AreEqual(0.4909, feedForwardResult.Get(0, 0), 1e-4);
-    Assert.AreEqual(0.2602, feedForwardResult.Get(4, 0), 1e-4);
-    Assert.AreEqual(0.5815, feedForwardResult.Get(4, 2), 1e-4);
-
-  }
-
-  [TestMethod]
   public void testForwardDoubleLayerSampleDataSet()
   {
-    var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, firstLayer, secondLayer);
+    var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, parameters);
 
-    Assert.AreEqual(1, feedForwardResult.GetWidth());
-    Assert.AreEqual(5, feedForwardResult.GetHeight());
+    Assert.AreEqual(3, feedForwardResult.LayerOne.GetWidth());
+    Assert.AreEqual(5, feedForwardResult.LayerOne.GetHeight());
 
-    Assert.AreEqual(0.3508, feedForwardResult.Get(0), 1e-4);
-    Assert.AreEqual(0.3694, feedForwardResult.Get(4), 1e-4);
+    Assert.AreEqual(0.4908, feedForwardResult.LayerOne.Get(0), 1e-4);
+    Assert.AreEqual(0.5815, feedForwardResult.LayerOne.Get(4, 2), 1e-4);
+
+    Assert.AreEqual(1, feedForwardResult.LayerTwo.GetWidth());
+    Assert.AreEqual(5, feedForwardResult.LayerTwo.GetHeight());
+
+    Assert.AreEqual(0.3508, feedForwardResult.LayerTwo.Get(0), 1e-4);
+    Assert.AreEqual(0.3694, feedForwardResult.LayerTwo.Get(4), 1e-4);
   }
 
   [TestMethod]
@@ -137,6 +129,25 @@ public class TestNeuralNetCore
     Assert.AreEqual(0.2100, delta.Get(0, 1), 1e-4);
     Assert.AreEqual(0.0707, delta.Get(1, 1), 1e-4);
 
+  }
+
+  [TestMethod]
+  public void testComputeBothLayerDeltaTestDataset()
+  {
+    /*
+    var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, firstLayerWeights, secondLayerWeights);
+
+    var deltaResults = NeuralNetCore.computeDeltas(feedForwardResult,  )
+    Matrix delta = NeuralNetCore.computeDelta(error, layer);
+
+    Assert.AreEqual(2, delta.GetHeight());
+    Assert.AreEqual(2, delta.GetWidth());
+
+    Assert.AreEqual(0.1966, delta.Get(0, 0), 1e-4);
+    Assert.AreEqual(0.1355, delta.Get(1, 0), 1e-4);
+    Assert.AreEqual(0.2100, delta.Get(0, 1), 1e-4);
+    Assert.AreEqual(0.0707, delta.Get(1, 1), 1e-4);
+  */
   }
 
 }
