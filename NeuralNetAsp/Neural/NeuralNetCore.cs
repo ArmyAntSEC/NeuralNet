@@ -20,6 +20,13 @@ namespace NeuralNetAsp.Neural
       var layerOne = stepTwo.elementPower(-1);
       return layerOne;
     }
+
+    public static Matrix feedForwardSingleLayer(Matrix input, Matrix weights)
+    {
+      var stepOne = input.mtimes(weights).times(-1);
+      var stepTwo = stepOne.exp().plus(1);
+      return stepTwo.elementPower(-1);
+    }
   }
 
   public class NetworkParameters

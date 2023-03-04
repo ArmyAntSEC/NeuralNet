@@ -60,14 +60,41 @@ public class TestNeuralNetCore
   }
 
   [TestMethod]
-  public void testForwardPropagation()
+  public void testForwardPropagationSingleStepSmallDataset()
   {
 
-    var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, parameters);
+    var weightsOne = new Matrix(new double[,] { { 0.1, 0.2 }, { 0.3, 0.4 } });
+    var input = new Matrix(new double[3, 2] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+    var feedForwardResult = NeuralNetCore.feedForwardSingleLayer(input, weightsOne);
 
-    Assert.AreEqual(numberOfTrainingCases, feedForwardResult.GetHeight());
-    Assert.AreEqual(1, feedForwardResult.GetWidth());
-    //TODO: Check the data.
+    Assert.AreEqual(2, feedForwardResult.GetWidth());
+    Assert.AreEqual(3, feedForwardResult.GetHeight());
+
+    Assert.AreEqual(0.6682, feedForwardResult.Get(0), 1e-4);
+    Assert.AreEqual(0.8176, feedForwardResult.Get(1), 1e-4);
+    Assert.AreEqual(0.9089, feedForwardResult.Get(2), 1e-4);
+    Assert.AreEqual(0.7311, feedForwardResult.Get(3), 1e-4);
+    Assert.AreEqual(0.9002, feedForwardResult.Get(4), 1e-4);
+    Assert.AreEqual(0.9677, feedForwardResult.Get(5), 1e-4);
+  }
+
+  [TestMethod]
+  public void testForwardPropagationSampleDataSet()
+  {
+
+    var weightsOne = new Matrix(new double[,] { { 0.1, 0.2 }, { 0.3, 0.4 } });
+    var input = new Matrix(new double[3, 2] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+    var feedForwardResult = NeuralNetCore.feedForwardSingleLayer(input, weightsOne);
+
+    Assert.AreEqual(2, feedForwardResult.GetWidth());
+    Assert.AreEqual(3, feedForwardResult.GetHeight());
+
+    Assert.AreEqual(0.6682, feedForwardResult.Get(0), 1e-4);
+    Assert.AreEqual(0.8176, feedForwardResult.Get(1), 1e-4);
+    Assert.AreEqual(0.9089, feedForwardResult.Get(2), 1e-4);
+    Assert.AreEqual(0.7311, feedForwardResult.Get(3), 1e-4);
+    Assert.AreEqual(0.9002, feedForwardResult.Get(4), 1e-4);
+    Assert.AreEqual(0.9677, feedForwardResult.Get(5), 1e-4);
   }
 
   [TestMethod]

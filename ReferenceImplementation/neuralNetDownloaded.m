@@ -10,12 +10,14 @@ rng(1);
 filename = 'data.txt';
 delimiterIn = ',';
 Data = importdata(filename,delimiterIn);
+Data = Data(1:5,1:5);
 
 %% create training and testing matrices
 [entries, attributes] = size(Data);
 entries_breakpoint = round(entries*.90); %set breakpoint for training and testing data at 90% of dataset
-inputlayersize=9;
-outputlayersize=attributes-inputlayersize;
+inputlayersize=attributes-1;
+
+outputlayersize=1;
 trainingdata = Data(1:entries_breakpoint,:); %truncate first 90% entries for training data
 trainingdata_inputs = trainingdata(:,1:inputlayersize); %90%x9 matrix input training data
 trainingdata_outputs = trainingdata(:,inputlayersize+1:end); %90:1 matrix output training data
@@ -24,7 +26,7 @@ testingdata_inputs= testingdata(:,1:inputlayersize); %10:9 matrix input testing 
 testingdata_outputs= testingdata(:,inputlayersize+1:end); %10:1 matrix output testing data
 
 error_tolerance = 0.05;
-hiddenlayersize=7;
+hiddenlayersize=3;
 
 %% initialize random synapse weights with a mean of 0
 syn0 = 2*rand(inputlayersize,hiddenlayersize) - 1; %random matrix, inputlayersize X hiddenlayersize
