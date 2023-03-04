@@ -15,62 +15,59 @@ public class TestNeuralNetCore
   int hiddenSize;
   int outputSize;
 
+  int numberOfTrainingCases;
+
   Matrix firstLayer;
-  Matrix firstBias;
+
   Matrix secondLayer;
-  Matrix secondBias;
+
+  Matrix trainingDataInput;
 
   NetworkParameters parameters;
 
 
   public TestNeuralNetCore()
   {
-    inputSize = 3;
-    hiddenSize = 2;
+    inputSize = 5;
+    hiddenSize = 4;
     outputSize = 1;
+    numberOfTrainingCases = 5;
 
-    firstLayer = Matrix.generateOnesMatrix(hiddenSize, inputSize).times(0.1);
-    firstBias = Matrix.generateOnesMatrix(hiddenSize, 1).times(0.2);
-    secondLayer = Matrix.generateOnesMatrix(outputSize, hiddenSize).times(0.3);
-    secondBias = Matrix.generateOnesMatrix(outputSize, 1).times(0.4);
+    trainingDataInput = new Matrix(new double[,] {
+      {-0.33, 0.69, 0, 1},
+      {-0.33, 0.94, 1, 0},
+      {-0.33, 0.5, 1, 0},
+      {-0.33, 0.75, 0, 1},
+      {-0.33, 0.67, 1, 1},
+      });
 
-    parameters = new NetworkParameters(firstLayer, firstBias, secondLayer, secondBias);
+    firstLayer = Matrix.generateRandomMatrix(hiddenSize, inputSize);
+    secondLayer = Matrix.generateRandomMatrix(outputSize, hiddenSize);
+
+    parameters = new NetworkParameters(firstLayer, secondLayer);
   }
 
   [TestMethod]
   public void testCreateNetworkParams()
   {
-    var inputSize = 3;
-    var hiddenSize = 2;
-    var outputSize = 1;
-
     var parameters = new NetworkParameters(inputSize, hiddenSize, outputSize);
 
     Assert.AreEqual(parameters.weightsLayerOne.GetHeight(), hiddenSize);
     Assert.AreEqual(parameters.weightsLayerOne.GetWidth(), inputSize);
 
-    Assert.AreEqual(parameters.biasLayerOne.GetHeight(), hiddenSize);
-    Assert.AreEqual(parameters.biasLayerOne.GetWidth(), 1);
-
     Assert.AreEqual(parameters.weightsLayerTwo.GetHeight(), outputSize);
     Assert.AreEqual(parameters.weightsLayerTwo.GetWidth(), hiddenSize);
-
-    Assert.AreEqual(parameters.biasLayerTwo.GetHeight(), outputSize);
-    Assert.AreEqual(parameters.biasLayerTwo.GetWidth(), 1);
   }
 
   [TestMethod]
   public void testForwardPropagation()
   {
 
-    var input = Matrix.generateOnesMatrix(inputSize, 1).times(0.5);
+    var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, parameters);
 
-    var feedForwardResult = NeuralNetCore.feedForward(input, parameters);
-
-    Assert.AreEqual(1, feedForwardResult.GetHeight());
+    Assert.AreEqual(numberOfTrainingCases, feedForwardResult.GetHeight());
     Assert.AreEqual(1, feedForwardResult.GetWidth());
-    Assert.AreEqual(0.538347, feedForwardResult.Get(0, 0), 1e-5);
-
+    //TODO: Check the data.
   }
 
   [TestMethod]

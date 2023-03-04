@@ -4,7 +4,7 @@ using NeuralNetAsp.Neural;
 namespace NeuralNetAsp.Tests;
 
 [TestClass]
-public class TestMathCore
+public class TestMatrixCore
 {
 
   [TestMethod]
@@ -83,11 +83,11 @@ public class TestMathCore
     var height = 3;
     var width = 2;
 
-    var matrix = Matrix.generateRandomMatrix(height, width);
+    var matrix = Matrix.generateRandomMatrix(height, width, 1);
     Assert.AreEqual(matrix.GetHeight(), height);
     Assert.AreEqual(matrix.GetWidth(), width);
 
-    var matrix2 = Matrix.generateRandomMatrix(height, width);
+    var matrix2 = Matrix.generateRandomMatrix(height, width, 2);
     for (int i = 0; i < width; i++)
     {
       for (int j = 0; j < height; j++)
@@ -217,4 +217,98 @@ public class TestMathCore
       Assert.AreEqual(2 * i, matrix3.Get(i), 1e-5);
     }
   }
+
+  [TestMethod]
+  public void testCreateFromRectangularArray()
+  {
+    var height = 2;
+    var width = 3;
+    var data = new double[2, 3] { { 1, 3, 5 }, { 2, 4, 6 } };
+
+    var matrix = new Matrix(data);
+
+    var elements = width * height;
+    for (int i = 0; i < elements; i++)
+    {
+      Assert.AreEqual(i + 1, matrix.Get(i), 1e-5);
+    }
+  }
+
+  [TestMethod]
+  public void testMultiplyMatricesScalaerResult()
+  {
+    var data = new Matrix(new double[1, 2] { { 1, 3 } });
+    var data2 = new Matrix(new double[2, 1] { { 1 }, { 3 } });
+
+    Matrix result = data.mtimes(data2);
+
+    Assert.AreEqual(1, result.GetWidth());
+    Assert.AreEqual(1, result.GetHeight());
+    Assert.AreEqual(10, result.Get(0));
+  }
+
+  [TestMethod]
+  public void testMultiplyMatricesMatrixResult()
+  {
+    var data = new Matrix(new double[1, 2] { { 1, 3 } });
+    var data2 = new Matrix(new double[2, 1] { { 1 }, { 3 } });
+
+    Matrix result = data2.mtimes(data);
+
+    Assert.AreEqual(2, result.GetWidth());
+    Assert.AreEqual(2, result.GetHeight());
+
+    Assert.AreEqual(1, result.Get(0));
+    Assert.AreEqual(3, result.Get(1));
+    Assert.AreEqual(3, result.Get(2));
+    Assert.AreEqual(9, result.Get(3));
+  }
+
+  [TestMethod]
+  public void testExponential()
+  {
+    var data = new Matrix(new double[1, 2] { { 1, 3 } });
+
+    Matrix result = data.exp();
+
+    Assert.AreEqual(2, result.GetWidth());
+    Assert.AreEqual(1, result.GetHeight());
+
+    Assert.AreEqual(2.7183, result.Get(0), 1e-4);
+    Assert.AreEqual(20.0855, result.Get(1), 1e-4);
+
+  }
+
+  [TestMethod]
+  public void testAddScalar()
+  {
+    var data = new Matrix(new double[1, 2] { { 1, 3 } });
+
+    Matrix result = data.plus(2);
+
+    Assert.AreEqual(2, result.GetWidth());
+    Assert.AreEqual(1, result.GetHeight());
+
+    Assert.AreEqual(3, result.Get(0));
+    Assert.AreEqual(5, result.Get(1));
+
+  }
+
+
+  [TestMethod]
+  public void testElementWizePower()
+  {
+    var data = new Matrix(new double[1, 2] { { 1, 3 } });
+
+    Matrix result = data.elementPower(2);
+
+    Assert.AreEqual(2, result.GetWidth());
+    Assert.AreEqual(1, result.GetHeight());
+
+    Assert.AreEqual(1, result.Get(0));
+    Assert.AreEqual(9, result.Get(1));
+
+  }
+
+
 }

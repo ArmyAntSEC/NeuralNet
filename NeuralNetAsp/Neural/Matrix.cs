@@ -27,6 +27,20 @@ namespace NeuralNetAsp.Neural
       }
     }
 
+    public Matrix(double[,] input) : this(input.GetLength(0), input.GetLength(1))
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          data[j, i] = input[j, i];
+        }
+      }
+    }
+
 
     public Matrix(Matrix m)
     {
@@ -66,15 +80,15 @@ namespace NeuralNetAsp.Neural
       return this.data[row, column];
     }
 
-    public static Matrix generateRandomMatrix(int height, int width)
+    public static Matrix generateRandomMatrix(int height, int width, int seed = 1)
     {
-      var randomGenerator = Medallion.Rand.Create();
+      var rnd = new Random(seed);
       var rValue = new Matrix(height, width);
       for (int i = 0; i < width; i++)
       {
         for (int j = 0; j < height; j++)
         {
-          rValue.data[j, i] = Medallion.Rand.NextGaussian(randomGenerator);
+          rValue.data[j, i] = 2 * rnd.NextDouble() - 1;
         }
       }
       return rValue;
@@ -133,6 +147,13 @@ namespace NeuralNetAsp.Neural
       return rValue;
     }
 
+    public Matrix plus(double term)
+    {
+      //TODO: Inefficient
+      var adder = Matrix.generateOnesMatrix(GetHeight(), GetWidth()).times(term);
+      return this.plus(adder);
+    }
+
     public Matrix tanh()
     {
       var height = GetHeight();
@@ -146,6 +167,7 @@ namespace NeuralNetAsp.Neural
       return rValue;
     }
 
+    //TODO: Double check or delete this
     public Matrix dot(Matrix b)
     {
       CheckEqual(GetWidth(), b.GetHeight());
@@ -161,6 +183,56 @@ namespace NeuralNetAsp.Neural
           sum += Get(j, i) * b.Get(i, 0);
         }
         rValue.Set(j, 0, sum);
+      }
+      return rValue;
+    }
+
+    public Matrix mtimes(Matrix data2)
+    {
+      CheckEqual(this.GetWidth(), data2.GetHeight());
+      var returnValue = new MutableMatrix(this.GetHeight(), data2.GetWidth());
+      for (int i = 0; i < this.GetHeight(); i++)
+      {
+        for (int j = 0; j < data2.GetWidth(); j++)
+        {
+          for (int k = 0; k < this.GetWidth(); k++)
+          {
+            returnValue.Set(i, j, returnValue.Get(i, j) + this.Get(i, k) * data2.Get(k, j));
+          }
+        }
+      }
+      return returnValue;
+    }
+
+    public Matrix exp()
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+
+      var rValue = new MutableMatrix(height, width);
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          rValue.Set(j, i, Math.Exp(this.Get(j, i)));
+        }
+      }
+      return rValue;
+
+    }
+
+    public Matrix elementPower(int v)
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+
+      var rValue = new MutableMatrix(height, width);
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          rValue.Set(j, i, Math.Pow(this.Get(j, i), v));
+        }
       }
       return rValue;
     }

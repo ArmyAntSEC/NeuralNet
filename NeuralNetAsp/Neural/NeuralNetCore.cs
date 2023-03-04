@@ -15,11 +15,10 @@ namespace NeuralNetAsp.Neural
 
     public static Matrix feedForward(Matrix input, NetworkParameters parameters)
     {
-      var firstStepLinear = parameters.weightsLayerOne.dot(input).plus(parameters.biasLayerOne);
-      var firstStep = firstStepLinear.tanh();
-      var secondStepLinear = parameters.weightsLayerTwo.dot(firstStep).plus(parameters.biasLayerTwo);
-      var secondStep = secondStepLinear.tanh();
-      return secondStep;
+      var stepOne = input.mtimes(parameters.weightsLayerOne).times(-1);
+      var stepTwo = stepOne.exp().plus(1);
+      var layerOne = stepTwo.elementPower(-1);
+      return layerOne;
     }
   }
 
@@ -31,11 +30,6 @@ namespace NeuralNetAsp.Neural
       get { return weightsLayerOneParam; }
     }
 
-    private Matrix biasLayerOneParam;
-    public Matrix biasLayerOne
-    {
-      get { return biasLayerOneParam; }
-    }
 
     private Matrix weightsLayerTwoParam;
     public Matrix weightsLayerTwo
@@ -43,26 +37,16 @@ namespace NeuralNetAsp.Neural
       get { return weightsLayerTwoParam; }
     }
 
-    private Matrix biasLayerTwoParam;
-    public Matrix biasLayerTwo
-    {
-      get { return biasLayerTwoParam; }
-    }
-
     public NetworkParameters(int inputSize, int hiddenSize, int outputSize)
     {
       weightsLayerOneParam = Matrix.generateRandomMatrix(hiddenSize, inputSize);
-      biasLayerOneParam = Matrix.generateZeroMatrix(hiddenSize, 1);
       weightsLayerTwoParam = Matrix.generateRandomMatrix(outputSize, hiddenSize);
-      biasLayerTwoParam = Matrix.generateZeroMatrix(outputSize, 1);
     }
 
-    public NetworkParameters(Matrix weightsLayerOne, Matrix biasLayerOne, Matrix weightsLayerTwo, Matrix biasLayerTwo)
+    public NetworkParameters(Matrix weightsLayerOne, Matrix weightsLayerTwo)
     {
       this.weightsLayerOneParam = weightsLayerOne;
-      this.biasLayerOneParam = biasLayerOne;
       this.weightsLayerTwoParam = weightsLayerTwo;
-      this.biasLayerTwoParam = biasLayerTwo;
     }
 
 
