@@ -270,6 +270,40 @@ namespace NeuralNetAsp.Neural
       }
       return rValue;
     }
+
+    public Matrix abs()
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+
+      var rValue = new MutableMatrix(height, width);
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          rValue.Set(j, i, Math.Abs(Get(j, i)));
+        }
+      }
+      return rValue;
+    }
+
+    public Matrix mean()
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+
+      var rValue = new MutableMatrix(1, width);
+      for (int i = 0; i < width; i++)
+      {
+        var sumValue = 0.0;
+        for (int j = 0; j < height; j++)
+        {
+          sumValue += Get(j, i);
+        }
+        rValue.Set(0, i, sumValue / height);
+      }
+      return rValue;
+    }
   }
 
   public class MutableMatrix : Matrix

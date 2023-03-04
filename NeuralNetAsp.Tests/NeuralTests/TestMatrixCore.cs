@@ -347,5 +347,34 @@ public class TestMatrixCore
 
   }
 
+  [TestMethod]
+  public void testAbs()
+  {
+    var data = new Matrix(new double[,] { { 1, -4 } });
+
+    Matrix result = data.abs();
+
+    Assert.AreEqual(1, result.GetHeight());
+    Assert.AreEqual(2, result.GetWidth());
+
+    Assert.AreEqual(1, result.Get(0));
+    Assert.AreEqual(4, result.Get(1));
+
+  }
+
+  [TestMethod]
+  public void testMean()
+  {
+    var data = new Matrix(new double[,] { { 1, 2 }, { 3, 4 } });
+
+    Matrix result = data.mean();
+
+    Assert.AreEqual(1, result.GetHeight());
+    Assert.AreEqual(2, result.GetWidth());
+
+    Assert.AreEqual(2, result.Get(0));
+    Assert.AreEqual(3, result.Get(1));
+
+  }
 
 }

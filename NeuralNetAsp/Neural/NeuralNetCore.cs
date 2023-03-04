@@ -29,7 +29,18 @@ namespace NeuralNetAsp.Neural
       var layerOneError = layerTwoDelta.mtimes(parameters.WeightsLayerTwo.transpose());
       var layerOneDelta = computeDelta(layerOneError, feedForwardResult.LayerOne);
 
-      return new Deltas(layerOneDelta, layerTwoDelta);
+      var errorVal = layerTwoError.abs().mean();
+      CheckEqual(errorVal.GetHeight(), 1);
+      CheckEqual(errorVal.GetWidth(), 1);
+
+      return new Deltas(layerOneDelta, layerTwoDelta, errorVal.Get(0));
+    }
+
+    public static Matrix computeSingleCorrection(Matrix weights, double alpha, Matrix layer, Matrix layer2_delta)
+    {
+      var inner = layer.transpose().mtimes(layer2_delta);
+      var correction = inner.times(-alpha);
+      return weights.plus(correction);
     }
 
     public static FeedForwardResult feedForward(Matrix input, NetworkParameters parameters)
@@ -109,10 +120,17 @@ namespace NeuralNetAsp.Neural
       get { return layerTwoDeltaInternal; }
     }
 
-    public Deltas(Matrix layerOneDelta, Matrix layerTwoDelta)
+    private double errorValInternal;
+    public double ErrorVal
+    {
+      get { return errorValInternal; }
+    }
+
+    public Deltas(Matrix layerOneDelta, Matrix layerTwoDelta, double errorVal)
     {
       this.layerOneDeltaInternal = layerOneDelta;
       this.layerTwoDeltaInternal = layerTwoDelta;
+      this.errorValInternal = errorVal;
     }
   }
 }

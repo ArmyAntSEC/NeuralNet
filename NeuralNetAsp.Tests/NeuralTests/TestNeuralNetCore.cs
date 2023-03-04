@@ -159,6 +159,43 @@ public class TestNeuralNetCore
 
     Assert.AreEqual(-0.1574, deltas.LayerTwoDelta.Get(0, 0), 1e-4);
     Assert.AreEqual(0.0893, deltas.LayerTwoDelta.Get(4, 0), 1e-4);
+
+    Assert.AreEqual(0.5383, deltas.ErrorVal, 1e-4);
   }
+
+  [TestMethod]
+  public void testUpdateWeightsSmallDataset()
+  {
+    var weights = new Matrix(new double[,]{
+      {1, 2},
+      {3, 4}
+    });
+
+    var alpha = 0.001;
+
+    var layer = new Matrix(new double[,]{
+      {1, 2},
+      {3, 4},
+      {5, 6}
+    });
+
+    var layer2_delta = new Matrix(new double[,]{
+      {1, 2},
+      {3, 4},
+      {5, 6}
+    });
+
+    Matrix newWeights = NeuralNetCore.computeSingleCorrection(weights, alpha, layer, layer2_delta);
+
+    Assert.AreEqual(weights.GetHeight(), newWeights.GetHeight());
+    Assert.AreEqual(weights.GetWidth(), newWeights.GetWidth());
+
+    Assert.AreEqual(0.9650, newWeights.Get(0, 0), 1e-4);
+    Assert.AreEqual(2.9560, newWeights.Get(1, 0), 1e-4);
+    Assert.AreEqual(1.9560, newWeights.Get(0, 1), 1e-4);
+    Assert.AreEqual(3.9440, newWeights.Get(1, 1), 1e-4);
+
+  }
+
 
 }
