@@ -5,13 +5,6 @@ namespace NeuralNetAsp.Neural
 {
   public class NeuralNetCore
   {
-    public static Matrix computeCrossEntropyCost(MutableMatrix answer, MutableMatrix expectedAnswer, NetworkParameters parameters)
-    {
-      CheckEqual(answer.GetWidth(), expectedAnswer.GetWidth());
-      CheckEqual(answer.GetHeight(), expectedAnswer.GetHeight());
-
-      return null;
-    }
 
     public static Matrix computeDelta(Matrix error, Matrix layer)
     {
@@ -64,6 +57,19 @@ namespace NeuralNetAsp.Neural
       var stepOne = input.mtimes(weights).times(-1);
       var stepTwo = stepOne.exp().plus(1);
       return stepTwo.elementPower(-1);
+    }
+
+    public static NetworkParameters TrainNetwork(Matrix trainingDataInput, Matrix trainingDataOutput, double alpha, int numberOfIterations, double errorTolerance, NetworkParameters parameters)
+    {
+      double error = Double.PositiveInfinity;
+      for (int i = 0; i < numberOfIterations && error > errorTolerance; i++)
+      {
+        var feedForwardResults = feedForward(trainingDataInput, parameters);
+        var deltas = computeDeltas(feedForwardResults, parameters, trainingDataOutput);
+        parameters = computeNewWeights(parameters, trainingDataInput, alpha, feedForwardResults, deltas);
+        error = deltas.ErrorVal;
+      }
+      return parameters;
     }
   }
 

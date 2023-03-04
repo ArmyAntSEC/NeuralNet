@@ -17,6 +17,10 @@ public class TestNeuralNetCore
 
   double alpha;
 
+  double errorTolerance;
+
+  int numberOfIterations;
+
   Matrix firstLayerWeights;
 
   Matrix secondLayerWeights;
@@ -34,6 +38,10 @@ public class TestNeuralNetCore
     outputSize = 1;
 
     alpha = 0.001;
+
+    numberOfIterations = 245552;
+
+    errorTolerance = 0.05;
 
     trainingDataInput = new Matrix(new double[,] {
       {-0.33, 0.69, 0, 1},
@@ -200,7 +208,7 @@ public class TestNeuralNetCore
 
 
   [TestMethod]
-  public void testComputeBothAllweightCorrectionsTestDataset()
+  public void testComputeAllweightCorrectionsTestDataset()
   {
     var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, parameters);
 
@@ -222,5 +230,17 @@ public class TestNeuralNetCore
     Assert.AreEqual(-0.9451, updatedParams.WeightsLayerTwo.Get(2, 0), 1e-4);
   }
 
+  [TestMethod]
+  public void testEntireTrainingOnTestData()
+  {
+    NetworkParameters finalParameters = NeuralNetCore.TrainNetwork(trainingDataInput, trainingDataOutput, alpha, numberOfIterations, errorTolerance, parameters);
+
+    Assert.AreEqual(0.2051, finalParameters.WeightsLayerOne.Get(0, 0), 1e-4);
+    Assert.AreEqual(-3.1739, finalParameters.WeightsLayerOne.Get(3, 0), 1e-4);
+    Assert.AreEqual(1.6980, finalParameters.WeightsLayerOne.Get(3, 2), 1e-4);
+
+    Assert.AreEqual(5.4458, finalParameters.WeightsLayerTwo.Get(0, 0), 1e-4);
+    Assert.AreEqual(-4.9277, finalParameters.WeightsLayerTwo.Get(2, 0), 1e-4);
+  }
 
 }
