@@ -39,7 +39,7 @@ public class TestNeuralNetCore
 
     alpha = 0.001;
 
-    numberOfIterations = 245552;
+    numberOfIterations = 1000000;
 
     errorTolerance = 0.05;
 
@@ -241,6 +241,7 @@ public class TestNeuralNetCore
 
     Assert.AreEqual(5.4458, finalParameters.WeightsLayerTwo.Get(0, 0), 1e-4);
     Assert.AreEqual(-4.9277, finalParameters.WeightsLayerTwo.Get(2, 0), 1e-4);
+
   }
 
 }
