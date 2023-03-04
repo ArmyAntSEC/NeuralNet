@@ -21,10 +21,21 @@ namespace NeuralNetAsp.Neural
       return numerator.elementMult(inverseDenominator);
     }
 
+    public static Deltas computeDeltas(FeedForwardResult feedForwardResult, NetworkParameters parameters, Matrix expectedResponse)
+    {
+      var layerTwoError = feedForwardResult.LayerTwo.plus(expectedResponse.times(-1));
+      var layerTwoDelta = computeDelta(layerTwoError, feedForwardResult.LayerTwo);
+
+      var layerOneError = layerTwoDelta.mtimes(parameters.WeightsLayerTwo.transpose());
+      var layerOneDelta = computeDelta(layerOneError, feedForwardResult.LayerOne);
+
+      return new Deltas(layerOneDelta, layerTwoDelta);
+    }
+
     public static FeedForwardResult feedForward(Matrix input, NetworkParameters parameters)
     {
-      var layerOne = feedForwardSingleLayer(input, parameters.weightsLayerOne);
-      return new FeedForwardResult(layerOne, feedForwardSingleLayer(layerOne, parameters.weightsLayerTwo));
+      var layerOne = feedForwardSingleLayer(input, parameters.WeightsLayerOne);
+      return new FeedForwardResult(layerOne, feedForwardSingleLayer(layerOne, parameters.WeightsLayerTwo));
     }
 
     public static Matrix feedForwardSingleLayer(Matrix input, Matrix weights)
@@ -38,14 +49,14 @@ namespace NeuralNetAsp.Neural
   public class NetworkParameters
   {
     private Matrix weightsLayerOneParam;
-    public Matrix weightsLayerOne
+    public Matrix WeightsLayerOne
     {
       get { return weightsLayerOneParam; }
     }
 
 
     private Matrix weightsLayerTwoParam;
-    public Matrix weightsLayerTwo
+    public Matrix WeightsLayerTwo
     {
       get { return weightsLayerTwoParam; }
     }
@@ -81,6 +92,27 @@ namespace NeuralNetAsp.Neural
     {
       this.layerOneInternal = layerOne;
       this.layerTwoInternal = layerTwo;
+    }
+  }
+
+  public class Deltas
+  {
+    private Matrix layerOneDeltaInternal;
+    public Matrix LayerOneDelta
+    {
+      get { return layerOneDeltaInternal; }
+    }
+
+    private Matrix layerTwoDeltaInternal;
+    public Matrix LayerTwoDelta
+    {
+      get { return layerTwoDeltaInternal; }
+    }
+
+    public Deltas(Matrix layerOneDelta, Matrix layerTwoDelta)
+    {
+      this.layerOneDeltaInternal = layerOneDelta;
+      this.layerTwoDeltaInternal = layerTwoDelta;
     }
   }
 }

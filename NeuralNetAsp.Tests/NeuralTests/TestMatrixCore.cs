@@ -328,4 +328,24 @@ public class TestMatrixCore
   }
 
 
+  [TestMethod]
+  public void testTranspose()
+  {
+    var data = new Matrix(new double[3, 2] { { 1, 4 }, { 2, 5 }, { 3, 6 } });
+
+    Matrix result = data.transpose();
+
+    Assert.AreEqual(2, result.GetHeight());
+    Assert.AreEqual(3, result.GetWidth());
+
+    Assert.AreEqual(1, result.Get(0, 0));
+    Assert.AreEqual(2, result.Get(0, 1));
+    Assert.AreEqual(3, result.Get(0, 2));
+    Assert.AreEqual(4, result.Get(1, 0));
+    Assert.AreEqual(5, result.Get(1, 1));
+    Assert.AreEqual(6, result.Get(1, 2));
+
+  }
+
+
 }

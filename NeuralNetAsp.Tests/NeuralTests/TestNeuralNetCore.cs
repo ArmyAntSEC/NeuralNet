@@ -22,6 +22,7 @@ public class TestNeuralNetCore
   Matrix secondLayerWeights;
 
   Matrix trainingDataInput;
+  Matrix trainingDataOutput;
 
   NetworkParameters parameters;
 
@@ -40,6 +41,14 @@ public class TestNeuralNetCore
       {-0.33, 0.75, 0, 1},
       {-0.33, 0.67, 1, 1},
       });
+
+    trainingDataOutput = new Matrix(new double[,] {
+      {1},
+      {1},
+      {0},
+      {1},
+      {0}
+    });
 
     firstLayerWeights = new Matrix(new double[,] {
       {-0.1660, -0.7065, -0.2065},
@@ -62,11 +71,11 @@ public class TestNeuralNetCore
   {
     var parameters = new NetworkParameters(inputSize, hiddenSize, outputSize);
 
-    Assert.AreEqual(parameters.weightsLayerOne.GetHeight(), hiddenSize);
-    Assert.AreEqual(parameters.weightsLayerOne.GetWidth(), inputSize);
+    Assert.AreEqual(parameters.WeightsLayerOne.GetHeight(), hiddenSize);
+    Assert.AreEqual(parameters.WeightsLayerOne.GetWidth(), inputSize);
 
-    Assert.AreEqual(parameters.weightsLayerTwo.GetHeight(), outputSize);
-    Assert.AreEqual(parameters.weightsLayerTwo.GetWidth(), hiddenSize);
+    Assert.AreEqual(parameters.WeightsLayerTwo.GetHeight(), outputSize);
+    Assert.AreEqual(parameters.WeightsLayerTwo.GetWidth(), hiddenSize);
   }
 
   [TestMethod]
@@ -134,20 +143,22 @@ public class TestNeuralNetCore
   [TestMethod]
   public void testComputeBothLayerDeltaTestDataset()
   {
-    /*
-    var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, firstLayerWeights, secondLayerWeights);
+    var feedForwardResult = NeuralNetCore.feedForward(trainingDataInput, parameters);
 
-    var deltaResults = NeuralNetCore.computeDeltas(feedForwardResult,  )
-    Matrix delta = NeuralNetCore.computeDelta(error, layer);
+    var deltas = NeuralNetCore.computeDeltas(feedForwardResult, parameters, trainingDataOutput);
 
-    Assert.AreEqual(2, delta.GetHeight());
-    Assert.AreEqual(2, delta.GetWidth());
+    Assert.AreEqual(5, deltas.LayerOneDelta.GetHeight());
+    Assert.AreEqual(3, deltas.LayerOneDelta.GetWidth());
 
-    Assert.AreEqual(0.1966, delta.Get(0, 0), 1e-4);
-    Assert.AreEqual(0.1355, delta.Get(1, 0), 1e-4);
-    Assert.AreEqual(0.2100, delta.Get(0, 1), 1e-4);
-    Assert.AreEqual(0.0707, delta.Get(1, 1), 1e-4);
-  */
+    Assert.AreEqual(0.0219, deltas.LayerOneDelta.Get(0, 0), 1e-4);
+    Assert.AreEqual(-0.0130, deltas.LayerOneDelta.Get(4, 0), 1e-4);
+    Assert.AreEqual(-0.0194, deltas.LayerOneDelta.Get(4, 2), 1e-4);
+
+    Assert.AreEqual(5, deltas.LayerTwoDelta.GetHeight());
+    Assert.AreEqual(1, deltas.LayerTwoDelta.GetWidth());
+
+    Assert.AreEqual(-0.1574, deltas.LayerTwoDelta.Get(0, 0), 1e-4);
+    Assert.AreEqual(0.0893, deltas.LayerTwoDelta.Get(4, 0), 1e-4);
   }
 
 }
