@@ -115,15 +115,28 @@ public class TestNeuralNetCore
   }
 
   [TestMethod]
-  public void testComputeCrossEntropyCost()
+  public void testComputeLayerDeltaSmallDataset()
   {
-    var answer = new MutableMatrix(1, 1);
-    answer.Set(0, 0.538347);
+    var error = new Matrix(new double[,]{
+      {1, 2},
+      {3, 4}
+    });
 
-    var expectedAnswer = new MutableMatrix(1, 1);
-    expectedAnswer.Set(0, 3);
+    var layer = new Matrix(new double[,]{
+      {1, 2},
+      {3, 4}
+    });
 
-    var cost = NeuralNetCore.computeCrossEntropyCost(answer, expectedAnswer, parameters);
+    Matrix delta = NeuralNetCore.computeDelta(error, layer);
+
+    Assert.AreEqual(2, delta.GetHeight());
+    Assert.AreEqual(2, delta.GetWidth());
+
+    Assert.AreEqual(0.1966, delta.Get(0, 0), 1e-4);
+    Assert.AreEqual(0.1355, delta.Get(1, 0), 1e-4);
+    Assert.AreEqual(0.2100, delta.Get(0, 1), 1e-4);
+    Assert.AreEqual(0.0707, delta.Get(1, 1), 1e-4);
+
   }
 
 }

@@ -236,6 +236,24 @@ namespace NeuralNetAsp.Neural
       }
       return rValue;
     }
+
+    public Matrix elementMult(Matrix data2)
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+      CheckEqual(height, data2.GetHeight());
+      CheckEqual(width, data2.GetWidth());
+
+      var rValue = new MutableMatrix(height, width);
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          rValue.Set(j, i, Get(j, i) * data2.Get(j, i));
+        }
+      }
+      return rValue;
+    }
   }
 
   public class MutableMatrix : Matrix

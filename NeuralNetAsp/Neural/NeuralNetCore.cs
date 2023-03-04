@@ -13,6 +13,14 @@ namespace NeuralNetAsp.Neural
       return null;
     }
 
+    public static Matrix computeDelta(Matrix error, Matrix layer)
+    {
+      var layerExp = layer.exp();
+      var inverseDenominator = layerExp.plus(1).elementPower(2).elementPower(-1);
+      var numerator = error.elementMult(layerExp);
+      return numerator.elementMult(inverseDenominator);
+    }
+
     public static Matrix feedForward(Matrix input, Matrix weightsOne, Matrix weightsTwo)
     {
       var stepOne = feedForwardSingleLayer(input, weightsOne);

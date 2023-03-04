@@ -310,5 +310,22 @@ public class TestMatrixCore
 
   }
 
+  [TestMethod]
+  public void testElementWizeMult()
+  {
+    var data = new Matrix(new double[1, 2] { { 1, 3 } });
+
+    var data2 = new Matrix(new double[1, 2] { { 2, 4 } });
+
+    Matrix result = data.elementMult(data2);
+
+    Assert.AreEqual(2, result.GetWidth());
+    Assert.AreEqual(1, result.GetHeight());
+
+    Assert.AreEqual(2, result.Get(0));
+    Assert.AreEqual(12, result.Get(1));
+
+  }
+
 
 }
