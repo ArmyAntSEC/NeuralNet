@@ -7,6 +7,22 @@ namespace NeuralNetAsp.Tests;
 public class TestMatrixCore
 {
   [TestMethod]
+  public void TestCreateFromArray()
+  {
+    var data = new double[] { 1, 2, 3, 4 };
+    var matrix = new Matrix(data, 2, 2);
+
+    Assert.AreEqual(2, matrix.GetHeight());
+    Assert.AreEqual(2, matrix.GetWidth());
+
+    Assert.AreEqual(1, matrix.Get(0, 0));
+    Assert.AreEqual(2, matrix.Get(1, 0));
+    Assert.AreEqual(3, matrix.Get(0, 1));
+    Assert.AreEqual(4, matrix.Get(1, 1));
+
+  }
+
+  [TestMethod]
   public void TestDotProductColumns()
   {
     var matrixOne = new MutableMatrix(1, 3);

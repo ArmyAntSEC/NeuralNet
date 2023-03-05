@@ -1,5 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using NeuralNetAsp.Models.MatrixCore;
 using NeuralNetAsp.Models.Neural;
@@ -19,19 +20,18 @@ namespace NeuralNetAsp.Controllers
 
     // POST api/neural
     [HttpPost]
-    public String Post([FromBody] TrainingData input)
+    public JsonResult Post([FromBody] TrainingData input)
     {
-      return "POST: " + input;
-      /*
       try
       {
-        int inputSize = 5;
+        int inputSize = 4;
         int outputSize = 1;
 
-        var trainingDataInput = new Matrix(data.TrainingDataInput);
-        var trainingDataOutput = new Matrix(data.TrainingDataOutput);
+        var trainingDataInput = new Matrix(input.input, input.output.Length, inputSize);
+        var trainingDataOutput = new Matrix(input.output);
+
         CheckEqual(trainingDataInput.GetWidth(), inputSize);
-        CheckEqual(trainingDataInput.GetWidth(), outputSize);
+        CheckEqual(trainingDataOutput.GetWidth(), outputSize);
         CheckEqual(trainingDataInput.GetHeight(), trainingDataOutput.GetHeight());
 
         double alpha = 0.001;
@@ -41,17 +41,17 @@ namespace NeuralNetAsp.Controllers
         double errorTolerance = 0.05;
 
         var firstLayerWeights = new Matrix(new double[,] {
-        {-0.1660, -0.7065, -0.2065},
-        {0.4406, -0.8153, 0.0776},
-        {-0.9998, -0.6275, -0.1616},
-        {-0.3953, -0.3089, 0.3704}
-      });
+          {-0.1660, -0.7065, -0.2065},
+          {0.4406, -0.8153, 0.0776},
+          {-0.9998, -0.6275, -0.1616},
+          {-0.3953, -0.3089, 0.3704}
+        });
 
         var secondLayerWeights = new Matrix(new double[,] {
-        {-0.5911},
-        {0.7562},
-        {-0.9452}
-      });
+          {-0.5911},
+          {0.7562},
+          {-0.9452}
+        });
 
         var parameters = new NetworkParameters(firstLayerWeights, secondLayerWeights);
 
@@ -59,18 +59,35 @@ namespace NeuralNetAsp.Controllers
           trainingDataInput, trainingDataOutput, alpha,
           numberOfIterations, errorTolerance, parameters);
 
-        return "Hello World!";
+        var finalParameters = NeuralNetCore.TrainNetwork(param);
+
+        var response = new ResponseData(
+          finalParameters.WeightsLayerOne.ToArray(),
+          finalParameters.WeightsLayerTwo.ToArray());
+
+        return Json(response);
       }
       catch (Exception e)
       {
-        return "Error: " + e.Message;
+        return Json(e.Message);
       }
-      */
     }
   }
+  public class ResponseData
+  {
+    public double[] layerOneWeights { get; set; }
+    public double[] layerTwoWeights { get; set; }
+
+    public ResponseData(double[] layerOne, double[] layerTwo)
+    {
+      layerOneWeights = layerOne;
+      layerTwoWeights = layerTwo;
+    }
+  }
+
   public class TrainingData
   {
-    public double[] training_data_input;
-    public double[] training_data_output;
+    public double[] input { get; set; }
+    public double[] output { get; set; }
   }
 }

@@ -8,6 +8,7 @@ namespace NeuralNetAsp.Models.MatrixCore
   {
 
     private double[,] data;
+
     protected double[,] Data
     {
       get { return data; }
@@ -29,6 +30,16 @@ namespace NeuralNetAsp.Models.MatrixCore
       {
         data[j, 0] = input[j];
       }
+    }
+
+    public double[] ToArray()
+    {
+      var rValue = new double[GetWidth() * GetHeight()];
+      for (int i = 0; i < GetWidth() * GetHeight(); i++)
+      {
+        rValue[i] = Get(i);
+      }
+      return rValue;
     }
 
     public Matrix(double[,] input) : this(input.GetLength(0), input.GetLength(1))
@@ -61,6 +72,15 @@ namespace NeuralNetAsp.Models.MatrixCore
       }
     }
 
+    public Matrix(double[] input, int height, int width) : this(height, width)
+    {
+      CheckEqual(width * height, input.Length);
+      for (int i = 0; i < width * height; i++)
+      {
+        Set(i, input[i]);
+      }
+    }
+
     public double Get(int row, int column)
     {
       return data[row, column];
@@ -82,6 +102,15 @@ namespace NeuralNetAsp.Models.MatrixCore
       var row = idx - column * GetHeight();
 
       return this.data[row, column];
+    }
+
+    //Only allowed in constructors
+    private void Set(int idx, double value)
+    {
+      var column = idx / GetHeight();
+      var row = idx - column * GetHeight();
+
+      this.data[row, column] = value;
     }
 
     public static Matrix generateRandomMatrix(int height, int width, int seed = 1)
