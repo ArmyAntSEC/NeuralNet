@@ -7,7 +7,11 @@ namespace NeuralNetAsp.Model.MatrixCore
   public class Matrix
   {
 
-    protected readonly double[,] data;
+    private double[,] data;
+    protected double[,] Data
+    {
+      get { return data; }
+    }
 
     public Matrix() : this(0, 0)
     { }
@@ -319,7 +323,7 @@ namespace NeuralNetAsp.Model.MatrixCore
 
     public void Set(int row, int column, double value)
     {
-      this.data[row, column] = value;
+      this.Data[row, column] = value;
     }
 
     public void Set(int idx, double value)
@@ -327,7 +331,7 @@ namespace NeuralNetAsp.Model.MatrixCore
       var column = idx / GetHeight();
       var row = idx - column * GetHeight();
 
-      this.data[row, column] = value;
+      this.Data[row, column] = value;
     }
   }
 }
