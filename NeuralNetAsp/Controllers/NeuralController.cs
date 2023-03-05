@@ -15,7 +15,17 @@ namespace NeuralNetAsp.Controllers
     [HttpGet]
     public JsonResult Get([FromBody] PredictData data)
     {
-      return Json(data);
+      int inputSize = 4;
+      int hiddenLayerSize = data.layerOneWeights.Length / inputSize;
+      var weightsOne = new Matrix(data.layerOneWeights, inputSize, hiddenLayerSize);
+      var weightsTwo = new Matrix(data.layerTwoWeights, hiddenLayerSize, 1);
+
+      var parameters = new NetworkParameters(weightsOne, weightsTwo);
+
+      var input = new Matrix(data.input, 1, inputSize);
+
+      var feedForwardResult = NeuralNetCore.feedForward(input, parameters);
+      return Json(feedForwardResult.LayerTwo.Get(0));
     }
 
     // POST api/neural
