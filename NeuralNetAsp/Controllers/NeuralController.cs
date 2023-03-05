@@ -9,17 +9,22 @@ namespace NeuralNetAsp.Controllers
   [Route("api/[controller]")]
   public class NeuralController : Controller
   {
-    // GET api/neural/5
+    // GET api/neural/<id>
     [HttpGet("{id}")]
     public string Get(int id)
     {
-      return "value";
+      return "Value: " + id + "\n";
     }
 
     // POST api/values
     [HttpPost]
-    public void Post([FromBody] string value)
+    public String Post([FromBody] TrainingData data)
     {
+      return "Hello World!";
     }
+  }
+  public class TrainingData
+  {
+
   }
 }

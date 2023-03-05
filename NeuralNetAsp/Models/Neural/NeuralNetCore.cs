@@ -60,14 +60,15 @@ namespace NeuralNetAsp.Models.Neural
       return stepTwo.elementPower(-1);
     }
 
-    public static NetworkParameters TrainNetwork(Matrix trainingDataInput, Matrix trainingDataOutput, double alpha, int numberOfIterations, double errorTolerance, NetworkParameters parameters)
+    public static NetworkParameters TrainNetwork(TrainingDataSetComplete param)
     {
       double error = Double.PositiveInfinity;
-      for (int i = 0; i < numberOfIterations && error > errorTolerance; i++)
+      var parameters = param.Parameters;
+      for (int i = 0; i < param.NumberOfIterations && error > param.ErrorTolerance; i++)
       {
-        var feedForwardResults = feedForward(trainingDataInput, parameters);
-        var deltas = computeDeltas(feedForwardResults, parameters, trainingDataOutput);
-        parameters = computeNewWeights(parameters, trainingDataInput, alpha, feedForwardResults, deltas);
+        var feedForwardResults = feedForward(param.TrainingDataInput, parameters);
+        var deltas = computeDeltas(feedForwardResults, parameters, param.TrainingDataOutput);
+        parameters = computeNewWeights(parameters, param.TrainingDataInput, param.Alpha, feedForwardResults, deltas);
         error = deltas.ErrorVal;
       }
       return parameters;
@@ -148,6 +149,28 @@ namespace NeuralNetAsp.Models.Neural
       this.layerOneDeltaInternal = layerOneDelta;
       this.layerTwoDeltaInternal = layerTwoDelta;
       this.errorValInternal = errorVal;
+    }
+  }
+
+  public class TrainingDataSetComplete
+  {
+    public Matrix TrainingDataInput { get; }
+    public Matrix TrainingDataOutput { get; }
+    public double Alpha { get; }
+    public int NumberOfIterations { get; }
+    public double ErrorTolerance { get; }
+    public NetworkParameters Parameters { get; }
+
+    public TrainingDataSetComplete(
+      Matrix trainingDataInput, Matrix trainingDataOutput, double alpha,
+      int numberOfIterations, double errorTolerance, NetworkParameters parameters)
+    {
+      TrainingDataInput = trainingDataInput;
+      TrainingDataOutput = trainingDataOutput;
+      Alpha = alpha;
+      NumberOfIterations = numberOfIterations;
+      ErrorTolerance = errorTolerance;
+      Parameters = parameters;
     }
   }
 }

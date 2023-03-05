@@ -235,7 +235,10 @@ public class TestNeuralNetCore
   [TestMethod]
   public void testEntireTrainingOnTestData()
   {
-    NetworkParameters finalParameters = NeuralNetCore.TrainNetwork(trainingDataInput, trainingDataOutput, alpha, numberOfIterations, errorTolerance, parameters);
+    var param = new TrainingDataSetComplete(
+        trainingDataInput, trainingDataOutput, alpha,
+        numberOfIterations, errorTolerance, parameters);
+    NetworkParameters finalParameters = NeuralNetCore.TrainNetwork(param);
 
     Assert.AreEqual(0.2051, finalParameters.WeightsLayerOne.Get(0, 0), 1e-4);
     Assert.AreEqual(-3.1739, finalParameters.WeightsLayerOne.Get(3, 0), 1e-4);
