@@ -8,6 +8,9 @@
     },
     {
       "path": "NeuralNetAsp.Tests"
+    },
+    {
+      "path": "scripts"
     }
   ],
   "settings": {}
