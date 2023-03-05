@@ -12,10 +12,10 @@ namespace NeuralNetAsp.Controllers
   public class NeuralController : Controller
   {
     // GET api/neural/<id>
-    [HttpGet("{id}")]
-    public string Get(int id)
+    [HttpGet]
+    public JsonResult Get([FromBody] PredictData data)
     {
-      return "Value: " + id + "\n";
+      return Json(data);
     }
 
     // POST api/neural
@@ -73,6 +73,15 @@ namespace NeuralNetAsp.Controllers
       }
     }
   }
+
+  public class PredictData
+  {
+    public double[] layerOneWeights { get; set; }
+    public double[] layerTwoWeights { get; set; }
+
+    public double[] input { get; set; }
+  }
+
   public class ResponseData
   {
     public double[] layerOneWeights { get; set; }
