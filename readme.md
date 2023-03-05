@@ -3,9 +3,10 @@
 This is a small dem of a pair of endpoints that train and predict 
 respectively with a simple neural network.
 
-The code is written mosly as a style demo of Test Driven Devlopment in 
-C# with ASP.NET and as a POC for using AWS CBK in C# to provision 
-infrastructure and deploy automatically. 
+The code is written mosly as a style demo of C# and illustrates the following best practices:
+- The entire core is written using Test Driven Development, the only method except Pair Programming to be proven to raise quality.
+- Single-interaction deployment, both to a local system and to public deployment. Delays between a developer finishes writing code and that code can be in the hands of users causes a slowdown in the development speed and a lowering of the quality, as shown by Googles DORA research.
+- Automatic provisioning of infrastructure, meaning there is never a disconnect between what the code expects and what the infrastructure looks like. 
 
 ## How to use
 Assuming you have dotnet 7.0.103 installed, docker running and the AWS tools configured, then you should be able to go into the scripts folder and run either of test_and_deploy_local.sh or test_and_deploy_cdk.sh to build and test. The first one stops after doing a sanity check in local docker. The second one then provisions resources and deploys to Amazon.
@@ -26,10 +27,11 @@ curl -X GET http://neura-neura-jjeraxh3bz3p-691205240.eu-west-1.elb.amazonaws.co
 ```
 
 ## Future improvements
-There are three major improvements that this code would need:
+The code is rather rought and there are some major improvements that this code would need:
 
 - Use the provisioned DynamoDb database to store the trained parameters so 
 they do not need to be sent in the GET stage (Partially done in the database branch).
 - Give the ASP.NET controller code better structure and error handling.
 - Convert the build scripts into a proper CI system including using the 
 test framework to also test the final APIs in end-to-end testing.
+- Add complete tests for all standard error cases for all matrix operations and properly error on all of them.
