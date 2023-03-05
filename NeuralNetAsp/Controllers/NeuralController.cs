@@ -32,6 +32,7 @@ namespace NeuralNetAsp.Controllers
     [HttpPost]
     public JsonResult Post([FromBody] TrainingData input)
     {
+      //TODO: Store the training variables in DynamoDB and just return an ID so the end user need not pass these back when doing a prediction.
       try
       {
         int inputSize = 4;
