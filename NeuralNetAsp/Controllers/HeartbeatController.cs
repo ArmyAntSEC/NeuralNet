@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NeuralNetAsp.Controllers
@@ -10,11 +7,16 @@ namespace NeuralNetAsp.Controllers
   [ApiController]
   public class HeartbeatController : Controller
   {
-    // GET api/values
     [HttpGet]
     public HeartBeatResponse Get()
     {
       return new HeartBeatResponse("Alive!");
+    }
+
+    [HttpPost]
+    public HeartBeatResponse Post([FromBody] String value)
+    {
+      return new HeartBeatResponse("Posted: " + value);
     }
   }
 

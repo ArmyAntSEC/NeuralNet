@@ -77,29 +77,19 @@ namespace NeuralNetAsp.Models.Neural
 
   public class NetworkParameters
   {
-    private Matrix weightsLayerOneParam;
-    public Matrix WeightsLayerOne
-    {
-      get { return weightsLayerOneParam; }
-    }
-
-
-    private Matrix weightsLayerTwoParam;
-    public Matrix WeightsLayerTwo
-    {
-      get { return weightsLayerTwoParam; }
-    }
+    public Matrix WeightsLayerOne { get; }
+    public Matrix WeightsLayerTwo { get; }
 
     public NetworkParameters(int inputSize, int hiddenSize, int outputSize)
     {
-      weightsLayerOneParam = Matrix.generateRandomMatrix(hiddenSize, inputSize);
-      weightsLayerTwoParam = Matrix.generateRandomMatrix(outputSize, hiddenSize);
+      WeightsLayerOne = Matrix.generateRandomMatrix(hiddenSize, inputSize);
+      WeightsLayerTwo = Matrix.generateRandomMatrix(outputSize, hiddenSize);
     }
 
     public NetworkParameters(Matrix weightsLayerOne, Matrix weightsLayerTwo)
     {
-      this.weightsLayerOneParam = weightsLayerOne;
-      this.weightsLayerTwoParam = weightsLayerTwo;
+      WeightsLayerOne = weightsLayerOne;
+      WeightsLayerTwo = weightsLayerTwo;
     }
   }
 
