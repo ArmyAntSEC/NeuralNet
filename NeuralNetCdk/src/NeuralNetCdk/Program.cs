@@ -6,6 +6,7 @@ namespace NeuralNetCdk
   {
     public static void Main(string[] args)
     {
+      var y = 0;
       var app = new App();
       new NeuralNetCdkStack(app, "NeuralNetCdkStack", new StackProps
       {

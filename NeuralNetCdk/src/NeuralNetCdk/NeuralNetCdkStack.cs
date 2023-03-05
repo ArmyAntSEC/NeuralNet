@@ -31,7 +31,6 @@ namespace NeuralNetCdk
               new DockerImageAsset(this, "NeuralNetAsp", new DockerImageAssetProps
               {
                 Directory = Path.Combine(Directory.GetCurrentDirectory(), "..", "NeuralNetAsp")
-
               })
             )
           },
