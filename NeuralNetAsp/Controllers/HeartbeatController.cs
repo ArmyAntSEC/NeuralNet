@@ -1,5 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+using NeuralNetAsp.DynamoDb;
 
 namespace NeuralNetAsp.Controllers
 {
@@ -10,6 +11,9 @@ namespace NeuralNetAsp.Controllers
     [HttpGet]
     public HeartBeatResponse Get()
     {
+      var task = DynamoClient.CreateDynamoClient();
+      task.Wait();
+
       return new HeartBeatResponse("Alive!");
     }
 
