@@ -4,6 +4,8 @@ using static NeuralNetAsp.Utils.Guard;
 namespace NeuralNetAsp.Models.MatrixCore
 {
   //This class is designed to not have any inplace operators, meaning the udnerlying data storage becomes read-only.
+
+  //TODO: Refactor out all of these for loops into a few generic cases using closures or similar to handlea each specific case.
   public class Matrix
   {
 
