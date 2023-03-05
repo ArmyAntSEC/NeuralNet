@@ -19,7 +19,7 @@ namespace NeuralNetAsp.Controllers
 
     // POST api/neural
     [HttpPost]
-    public String Post([FromBody] String input)
+    public String Post([FromBody] TrainingData input)
     {
       return "POST: " + input;
       /*
@@ -70,9 +70,7 @@ namespace NeuralNetAsp.Controllers
   }
   public class TrainingData
   {
-    [JsonPropertyName("training_data_input")]
-    public double[,] TrainingDataInput { get; }
-    [JsonPropertyName("training_data_output")]
-    public double[] TrainingDataOutput { get; }
+    public double[] training_data_input;
+    public double[] training_data_output;
   }
 }

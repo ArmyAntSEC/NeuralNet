@@ -15,5 +15,5 @@ curl --fail http://localhost:80/api/neural/45 || exit 1
 echo
 
 echo "POST"
-curl -X POST http://localhost:80/api/neural/ -H 'Content-Type: application/json' -d '{}' || exit 1
+curl -X POST http://localhost:80/api/neural/ -H 'Content-Type: application/json' -d '{"training_data_input":[1.1,2.2],"training_data_output":[3.3,4.4]}' || exit 1
 echo
