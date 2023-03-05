@@ -11,7 +11,12 @@
     },
     {
       "path": "scripts"
+    },
+    {
+      "path": "NeuralNetAsp.ApiTests"
     }
   ],
-  "settings": {}
+  "settings": {
+    "dotnet-test-explorer.autoWatch": true
+  }
 }

@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using NeuralNetAsp.Model.MatrixCore;
+using NeuralNetAsp.Models.MatrixCore;
 namespace NeuralNetAsp.Tests;
 
 [TestClass]

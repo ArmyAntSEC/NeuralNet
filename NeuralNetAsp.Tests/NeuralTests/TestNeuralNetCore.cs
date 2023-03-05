@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using NeuralNetAsp.Model.Neural;
-using NeuralNetAsp.Model.MatrixCore;
+using NeuralNetAsp.Models.Neural;
+using NeuralNetAsp.Models.MatrixCore;
 
 namespace NeuralNetAsp.Tests;
 
