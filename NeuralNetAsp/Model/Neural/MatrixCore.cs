@@ -1,7 +1,7 @@
 using System;
 using static NeuralNetAsp.Utils.Guard;
 
-namespace NeuralNetAsp.Neural
+namespace NeuralNetAsp.Model.MatrixCore
 {
   //This class is designed to not have any inplace operators, meaning the udnerlying data storage becomes read-only.
   public class Matrix

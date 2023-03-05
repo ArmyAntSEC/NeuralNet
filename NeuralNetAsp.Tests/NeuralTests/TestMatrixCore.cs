@@ -1,22 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using NeuralNetAsp.Neural;
+using NeuralNetAsp.Model.MatrixCore;
 namespace NeuralNetAsp.Tests;
 
 [TestClass]
 public class TestMatrixCore
 {
-
-  [TestMethod]
-  [DataRow(0, 0.5)]
-  [DataRow(5, 0.99331)]
-  [DataRow(-5, 0.00669)]
-  public void TestSigmoidFunction(double inputValue, double expectedValue)
-  {
-    Assert.AreEqual(expectedValue, MathCore.SigmoidFunction(inputValue), 1e-5);
-  }
-
-
   [TestMethod]
   public void TestDotProductColumns()
   {

@@ -1,7 +1,8 @@
 using System;
 using static NeuralNetAsp.Utils.Guard;
+using NeuralNetAsp.Model.MatrixCore;
 
-namespace NeuralNetAsp.Neural
+namespace NeuralNetAsp.Model.Neural
 {
   public class NeuralNetCore
   {

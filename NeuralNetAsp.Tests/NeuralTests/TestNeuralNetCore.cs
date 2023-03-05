@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using NeuralNetAsp.Neural;
+using NeuralNetAsp.Model.Neural;
+using NeuralNetAsp.Model.MatrixCore;
+
 namespace NeuralNetAsp.Tests;
 
 //https://www.automatetheplanet.com/mstest-cheat-sheet/
