@@ -9,4 +9,4 @@ cdk deploy --require-approval never
 
 sleep 10
 
-curl --fail http://neura-neura-jjeraxh3bz3p-691205240.eu-west-1.elb.amazonaws.com/api/values/ || exit 1
+curl --fail http://neura-neura-jjeraxh3bz3p-691205240.eu-west-1.elb.amazonaws.com/api/heartbeat/ || exit 1

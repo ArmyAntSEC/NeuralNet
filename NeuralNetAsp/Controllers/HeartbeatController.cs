@@ -8,23 +8,23 @@ namespace NeuralNetAsp.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  public class ValuesController : Controller
+  public class HeartbeatController : Controller
   {
     // GET api/values
     [HttpGet]
-    public PlaceHolderResponse Get()
+    public HeartBeatResponse Get()
     {
-      return new PlaceHolderResponse("World");
+      return new HeartBeatResponse("Alive!");
     }
   }
 
-  public class PlaceHolderResponse
+  public class HeartBeatResponse
   {
-    public string Hello { get; set; }
+    public string Status { get; set; }
 
-    public PlaceHolderResponse(string hello)
+    public HeartBeatResponse(string status)
     {
-      this.Hello = hello;
+      this.Status = status;
     }
   }
 }

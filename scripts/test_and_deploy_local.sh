@@ -6,4 +6,4 @@ dotnet test -l "console;verbosity=detailed" ../NeuralNetAsp.Tests/NeuralNetAsp.T
 sh ./utils/docker_build.sh
 
 # Test that the APIs work
-curl --fail http://localhost:80/api/values/ || exit 1
+curl --fail http://localhost:80/api/heartbeat/ || exit 1
