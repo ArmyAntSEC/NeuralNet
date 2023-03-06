@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetAsp", "NeuralNetAs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetAsp.Tests", "NeuralNetAsp.Tests\NeuralNetAsp.Tests.csproj", "{D8A9B73F-4D04-4FF6-B3A2-0892A8F70F83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetAsp.ApiTests", "NeuralNetAsp.ApiTests\NeuralNetAsp.ApiTests.csproj", "{295326DA-E114-4D38-A1E8-7970F9A878BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{D8A9B73F-4D04-4FF6-B3A2-0892A8F70F83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8A9B73F-4D04-4FF6-B3A2-0892A8F70F83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8A9B73F-4D04-4FF6-B3A2-0892A8F70F83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{295326DA-E114-4D38-A1E8-7970F9A878BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{295326DA-E114-4D38-A1E8-7970F9A878BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{295326DA-E114-4D38-A1E8-7970F9A878BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{295326DA-E114-4D38-A1E8-7970F9A878BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
