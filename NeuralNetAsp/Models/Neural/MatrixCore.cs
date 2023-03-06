@@ -3,9 +3,7 @@ using static NeuralNetAsp.Utils.Guard;
 
 namespace NeuralNetAsp.Models.MatrixCore
 {
-  //This class is designed to not have any inplace operators, meaning the udnerlying data storage becomes read-only.
-
-  //TODO: Refactor out all of these for loops into a few generic cases using closures or similar to handlea each specific case.
+  //This class is designed to not have any inplace operators, meaning the udnerlying data storage becomes read-only.  
   public class Matrix
   {
 
@@ -136,32 +134,14 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     public static Matrix generateOnesMatrix(int height, int width)
     {
-      var rValue = new Matrix(height, width);
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.data[j, i] = 1;
-        }
-      }
-      return rValue;
+      //Does a double-allocation, which is inefficient, but the code is clean.
+      return new Matrix(height, width).ElementWiseBasedOnSelf(x => 1);
     }
 
 
     public Matrix times(double factor)
     {
-      var height = GetHeight();
-      var width = GetWidth();
-
-      var rValue = new MutableMatrix(height, width);
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.Set(j, i, this.Get(j, i) * factor);
-        }
-      }
-      return rValue;
+      return ElementWiseBasedOnSelf(x => x * factor);
     }
 
     public Matrix plus(Matrix term)
@@ -184,25 +164,9 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     public Matrix plus(double term)
     {
-      //TODO: Inefficient
-      var adder = Matrix.generateOnesMatrix(GetHeight(), GetWidth()).times(term);
-      return this.plus(adder);
+      return ElementWiseBasedOnSelf(x => x + term);
     }
 
-    public Matrix tanh()
-    {
-      var height = GetHeight();
-      var width = GetWidth();
-
-      var rValue = new MutableMatrix(height, width);
-      for (int i = 0; i < width * height; i++)
-      {
-        rValue.Set(i, Math.Tanh(this.Get(i)));
-      }
-      return rValue;
-    }
-
-    //TODO: Double check or delete this
     public Matrix dot(Matrix b)
     {
       CheckEqual(GetWidth(), b.GetHeight());
@@ -241,35 +205,12 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     public Matrix exp()
     {
-      var height = GetHeight();
-      var width = GetWidth();
-
-      var rValue = new MutableMatrix(height, width);
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.Set(j, i, Math.Exp(this.Get(j, i)));
-        }
-      }
-      return rValue;
-
+      return ElementWiseBasedOnSelf(Math.Exp);
     }
 
     public Matrix elementPower(int v)
     {
-      var height = GetHeight();
-      var width = GetWidth();
-
-      var rValue = new MutableMatrix(height, width);
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.Set(j, i, Math.Pow(this.Get(j, i), v));
-        }
-      }
-      return rValue;
+      return this.ElementWiseBasedOnSelf(x => Math.Pow(x, v));
     }
 
     public Matrix elementMult(Matrix data2)
@@ -308,18 +249,7 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     public Matrix abs()
     {
-      var height = GetHeight();
-      var width = GetWidth();
-
-      var rValue = new MutableMatrix(height, width);
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.Set(j, i, Math.Abs(Get(j, i)));
-        }
-      }
-      return rValue;
+      return ElementWiseBasedOnSelf(Math.Abs);
     }
 
     public Matrix mean()
@@ -339,30 +269,22 @@ namespace NeuralNetAsp.Models.MatrixCore
       }
       return rValue;
     }
-  }
 
-  public class MutableMatrix : Matrix
-  {
-    public MutableMatrix(int height, int width) : base(height, width)
+    private Matrix ElementWiseBasedOnSelf(Func<double, double> op)
     {
-    }
+      var height = GetHeight();
+      var width = GetWidth();
 
-    public MutableMatrix(Matrix matrix) : base(matrix)
-    {
+      var rValue = new MutableMatrix(height, width);
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          rValue.Set(j, i, op(Get(j, i)));
+        }
+      }
+      return rValue;
 
-    }
-
-    public void Set(int row, int column, double value)
-    {
-      this.Data[row, column] = value;
-    }
-
-    public void Set(int idx, double value)
-    {
-      var column = idx / GetHeight();
-      var row = idx - column * GetHeight();
-
-      this.Data[row, column] = value;
     }
   }
 }
