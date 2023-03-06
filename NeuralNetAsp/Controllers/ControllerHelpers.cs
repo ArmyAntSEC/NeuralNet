@@ -11,27 +11,27 @@ namespace NeuralNetAsp.Controllers
 
   public class PredictData
   {
-    public double[] layerOneWeights { get; set; }
-    public double[] layerTwoWeights { get; set; }
+    public double[] LayerOneWeights { get; set; }
+    public double[] LayerTwoWeights { get; set; }
 
-    public double[] input { get; set; }
+    public double[] Input { get; set; }
   }
 
   public class ResponseData
   {
-    public double[] layerOneWeights { get; set; }
-    public double[] layerTwoWeights { get; set; }
+    public double[] LayerOneWeights { get; set; }
+    public double[] LayerTwoWeights { get; set; }
 
     public ResponseData(double[] layerOne, double[] layerTwo)
     {
-      layerOneWeights = layerOne;
-      layerTwoWeights = layerTwo;
+      LayerOneWeights = layerOne;
+      LayerTwoWeights = layerTwo;
     }
   }
 
   public class TrainingData
   {
-    public double[] input { get; set; }
-    public double[] output { get; set; }
+    public double[] Input { get; set; }
+    public double[] Output { get; set; }
   }
 }

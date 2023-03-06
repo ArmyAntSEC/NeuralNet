@@ -21,8 +21,8 @@ namespace NeuralNetAsp.Controllers
         int inputSize = 4;
         int outputSize = 1;
 
-        var trainingDataInput = new Matrix(input.input, input.output.Length, inputSize);
-        var trainingDataOutput = new Matrix(input.output);
+        var trainingDataInput = new Matrix(input.Input, input.Output.Length, inputSize);
+        var trainingDataOutput = new Matrix(input.Output);
 
         CheckEqual(trainingDataInput.GetWidth(), inputSize);
         CheckEqual(trainingDataOutput.GetWidth(), outputSize);

@@ -22,8 +22,8 @@ namespace NeuralNetAsp.NeuralNetApiTests
       var url = baseUrl + "/trainer";
 
       var request = new TrainingData();
-      request.input = new double[] { -0.33, -0.33, -0.33, -0.33, -0.33, 0.69, 0.94, 0.5, 0.75, 0.67, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1 };
-      request.output = new double[] { 1, 1, 0, 1, 0 };
+      request.Input = new double[] { -0.33, -0.33, -0.33, -0.33, -0.33, 0.69, 0.94, 0.5, 0.75, 0.67, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1 };
+      request.Output = new double[] { 1, 1, 0, 1, 0 };
 
       using (var content = new StringContent(JsonSerializer.Serialize(request), System.Text.Encoding.UTF8, "application/json"))
       {
@@ -43,9 +43,9 @@ namespace NeuralNetAsp.NeuralNetApiTests
       var url = baseUrl + "/predictor";
 
       var request = new PredictData();
-      request.layerOneWeights = new double[] { 0.20501795434531928, 4.851008781645798, -5.094595716697624, -3.173856984876353, -0.3819715353811023, 5.729700533135146, -7.097541432816082, -3.6949973939179026, -0.1169280643114341, -3.895180491131896, 2.054754866046295, 1.697961953959847 };
-      request.layerTwoWeights = new double[] { 5.44573619851985, 5.522509842250541, -4.927694841147059 };
-      request.input = new double[] { -0.33, 0.69, 0, 1 };
+      request.LayerOneWeights = new double[] { 0.20501795434531928, 4.851008781645798, -5.094595716697624, -3.173856984876353, -0.3819715353811023, 5.729700533135146, -7.097541432816082, -3.6949973939179026, -0.1169280643114341, -3.895180491131896, 2.054754866046295, 1.697961953959847 };
+      request.LayerTwoWeights = new double[] { 5.44573619851985, 5.522509842250541, -4.927694841147059 };
+      request.Input = new double[] { -0.33, 0.69, 0, 1 };
 
       using (var content = new StringContent(JsonSerializer.Serialize(request), System.Text.Encoding.UTF8, "application/json"))
       {
