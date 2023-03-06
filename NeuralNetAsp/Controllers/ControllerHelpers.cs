@@ -22,10 +22,10 @@ namespace NeuralNetAsp.Controllers
     public double[] LayerOneWeights { get; set; }
     public double[] LayerTwoWeights { get; set; }
 
-    public ResponseData(double[] layerOne, double[] layerTwo)
+    public ResponseData(double[] layerOneWeights, double[] layerTwoWeights)
     {
-      LayerOneWeights = layerOne;
-      LayerTwoWeights = layerTwo;
+      LayerOneWeights = layerOneWeights;
+      LayerTwoWeights = layerTwoWeights;
     }
   }
 
