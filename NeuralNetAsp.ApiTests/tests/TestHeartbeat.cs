@@ -10,7 +10,7 @@ namespace NeuralNetAsp.HeartbeatApiTests
   public class HeartbeatApiTest
   {
 
-    string baseUrl = "http://localhost:5000/api";
+    string baseUrl = "http://localhost:/api";
 
     static readonly HttpClient httpClient = new HttpClient();
 
@@ -23,7 +23,7 @@ namespace NeuralNetAsp.HeartbeatApiTests
         Assert.AreEqual(true, message.IsSuccessStatusCode);
 
         var deserializedObject = JsonSerializer.Deserialize<HeartbeatResponse>(message.Content.ReadAsStringAsync().Result);
-        Assert.AreEqual("Alive!", deserializedObject.Status);
+        Assert.AreEqual("Alive!", deserializedObject!.Status);
       }
     }
   }

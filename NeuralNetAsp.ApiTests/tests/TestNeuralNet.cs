@@ -34,7 +34,7 @@ namespace NeuralNetAsp.NeuralNetApiTests
           var body = message.Content.ReadAsStringAsync().Result;
           var response = JsonNode.Parse(body);
 
-          //Check two example values
+          //Check two example values. Since this is a test, we don't ned to worry about dereferencing nulls
           Assert.AreEqual(0.2050179, (double)response["layerOneWeights"][0], 1e-5);
           Assert.AreEqual(5.445736198, (double)response["layerTwoWeights"][0], 1e-5);
         }
