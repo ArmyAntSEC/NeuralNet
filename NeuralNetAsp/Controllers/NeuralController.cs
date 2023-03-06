@@ -16,9 +16,9 @@ namespace NeuralNetAsp.Controllers
     public JsonResult Get([FromBody] PredictData data)
     {
       int inputSize = 4;
-      int hiddenLayerSize = data.LayerOneWeights.Length / inputSize;
-      var weightsOne = new Matrix(data.LayerOneWeights, inputSize, hiddenLayerSize);
-      var weightsTwo = new Matrix(data.LayerTwoWeights, hiddenLayerSize, 1);
+      int hiddenLayerSize = data.layerOneWeights.Length / inputSize;
+      var weightsOne = new Matrix(data.layerOneWeights, inputSize, hiddenLayerSize);
+      var weightsTwo = new Matrix(data.layerTwoWeights, hiddenLayerSize, 1);
 
       var parameters = new NetworkParameters(weightsOne, weightsTwo);
 
@@ -38,8 +38,8 @@ namespace NeuralNetAsp.Controllers
         int inputSize = 4;
         int outputSize = 1;
 
-        var trainingDataInput = new Matrix(input.Input, input.Output.Length, inputSize);
-        var trainingDataOutput = new Matrix(input.Output);
+        var trainingDataInput = new Matrix(input.input, input.output.Length, inputSize);
+        var trainingDataOutput = new Matrix(input.output);
 
         CheckEqual(trainingDataInput.GetWidth(), inputSize);
         CheckEqual(trainingDataOutput.GetWidth(), outputSize);
@@ -85,33 +85,29 @@ namespace NeuralNetAsp.Controllers
     }
   }
 
-  public class PredictData : ResponseData
+  public class PredictData
   {
-    public double[] input { get; set; }
+    public double[] layerOneWeights { get; set; }
+    public double[] layerTwoWeights { get; set; }
 
-    public PredictData(double[] input, double[] layerOne, double[] layerTwo) : base(layerOne, layerTwo)
-    {
-      this.input = input;
-    }
+    public double[] input { get; set; }
   }
 
   public class ResponseData
   {
-    [JsonPropertyName("layer_one_weights")]
-    public double[] LayerOneWeights { get; set; }
-    [JsonPropertyName("layer_two_weights")]
-    public double[] LayerTwoWeights { get; set; }
+    public double[] layerOneWeights { get; set; }
+    public double[] layerTwoWeights { get; set; }
 
     public ResponseData(double[] layerOne, double[] layerTwo)
     {
-      LayerOneWeights = layerOne;
-      LayerTwoWeights = layerTwo;
+      layerOneWeights = layerOne;
+      layerTwoWeights = layerTwo;
     }
   }
 
   public class TrainingData
   {
-    public double[] Input { get; set; }
-    public double[] Output { get; set; }
+    public double[] input { get; set; }
+    public double[] output { get; set; }
   }
 }
