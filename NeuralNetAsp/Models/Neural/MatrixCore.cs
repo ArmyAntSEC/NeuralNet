@@ -227,15 +227,21 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     private Matrix ElementWiseBasedOnSelf(Func<double, double> op)
     {
-      var height = GetHeight();
-      var width = GetWidth();
+      //Leads to a double-read which is not super-efficient.
+      var rValue = new MutableMatrix(this);
+      return ElementWiseWithOneMatrix(op, rValue);
+    }
 
-      var rValue = new MutableMatrix(height, width);
+    private static Matrix ElementWiseWithOneMatrix(Func<double, double> op, MutableMatrix rValue)
+    {
+      var height = rValue.GetHeight();
+      var width = rValue.GetWidth();
+
       for (int i = 0; i < width; i++)
       {
         for (int j = 0; j < height; j++)
         {
-          rValue.Set(j, i, op(Get(j, i)));
+          rValue.Set(j, i, op(rValue.Get(j, i)));
         }
       }
       return rValue;
@@ -243,19 +249,24 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     private Matrix ElementWiseBasedOnOtherMatrix(Func<double, double, double> op, Matrix m)
     {
-      var height = GetHeight();
-      var width = GetWidth();
+      //Leads to a double-read which is not super-efficient.
+      var rValue = new MutableMatrix(this);
+      return ElementWiseWithTwoMatrices(op, m, rValue);
+    }
+
+    private static Matrix ElementWiseWithTwoMatrices(Func<double, double, double> op, Matrix m, MutableMatrix rValue)
+    {
+      var height = rValue.GetHeight();
+      var width = rValue.GetWidth();
 
       CheckEqual(height, m.GetHeight());
       CheckEqual(width, m.GetWidth());
 
-
-      var rValue = new MutableMatrix(height, width);
       for (int i = 0; i < width; i++)
       {
         for (int j = 0; j < height; j++)
         {
-          rValue.Set(j, i, op(Get(j, i), m.Get(j, i)));
+          rValue.Set(j, i, op(rValue.Get(j, i), m.Get(j, i)));
         }
       }
       return rValue;
