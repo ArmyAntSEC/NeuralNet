@@ -124,7 +124,7 @@ namespace NeuralNetAsp.Models.MatrixCore
     {
       //Does a double-allocation, which is inefficient, but the code is clean.
       var rnd = new Random(seed);
-      return new Matrix(height, width).ElementWiseBasedOnSelf(x => 2 * rnd.NextDouble() - 1);
+      return MatrixScalarOperators.ElementWiseBasedOnSelf(new Matrix(height, width), x => 2 * rnd.NextDouble() - 1);
     }
 
     public static Matrix generateZeroMatrix(int height, int width)
@@ -135,24 +135,9 @@ namespace NeuralNetAsp.Models.MatrixCore
     public static Matrix generateOnesMatrix(int height, int width)
     {
       //Does a double-allocation, which is inefficient, but the code is clean.
-      return new Matrix(height, width).ElementWiseBasedOnSelf(x => 1);
+      return MatrixScalarOperators.ElementWiseBasedOnSelf(new Matrix(height, width), x => 1);
     }
 
-
-    public Matrix times(double factor)
-    {
-      return ElementWiseBasedOnSelf(x => x * factor);
-    }
-
-    public Matrix plus(Matrix term)
-    {
-      return ElementWiseBasedOnOtherMatrix((x, y) => x + y, term);
-    }
-
-    public Matrix plus(double term)
-    {
-      return ElementWiseBasedOnSelf(x => x + term);
-    }
 
     public Matrix mtimes(Matrix data2)
     {
@@ -171,20 +156,7 @@ namespace NeuralNetAsp.Models.MatrixCore
       return returnValue;
     }
 
-    public Matrix exp()
-    {
-      return ElementWiseBasedOnSelf(Math.Exp);
-    }
 
-    public Matrix elementPower(int v)
-    {
-      return this.ElementWiseBasedOnSelf(x => Math.Pow(x, v));
-    }
-
-    public Matrix elementMult(Matrix data2)
-    {
-      return ElementWiseBasedOnOtherMatrix((x, y) => x * y, data2);
-    }
 
     public Matrix transpose()
     {
@@ -200,11 +172,6 @@ namespace NeuralNetAsp.Models.MatrixCore
         }
       }
       return rValue;
-    }
-
-    public Matrix abs()
-    {
-      return ElementWiseBasedOnSelf(Math.Abs);
     }
 
     public Matrix mean()
@@ -225,51 +192,6 @@ namespace NeuralNetAsp.Models.MatrixCore
       return rValue;
     }
 
-    private Matrix ElementWiseBasedOnSelf(Func<double, double> op)
-    {
-      //Leads to a double-read which is not super-efficient.
-      var rValue = new MutableMatrix(this);
-      return ElementWiseWithOneMatrix(op, rValue);
-    }
 
-    private static Matrix ElementWiseWithOneMatrix(Func<double, double> op, MutableMatrix rValue)
-    {
-      var height = rValue.GetHeight();
-      var width = rValue.GetWidth();
-
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.Set(j, i, op(rValue.Get(j, i)));
-        }
-      }
-      return rValue;
-    }
-
-    private Matrix ElementWiseBasedOnOtherMatrix(Func<double, double, double> op, Matrix m)
-    {
-      //Leads to a double-read which is not super-efficient.
-      var rValue = new MutableMatrix(this);
-      return ElementWiseWithTwoMatrices(op, m, rValue);
-    }
-
-    private static Matrix ElementWiseWithTwoMatrices(Func<double, double, double> op, Matrix m, MutableMatrix rValue)
-    {
-      var height = rValue.GetHeight();
-      var width = rValue.GetWidth();
-
-      CheckEqual(height, m.GetHeight());
-      CheckEqual(width, m.GetWidth());
-
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.Set(j, i, op(rValue.Get(j, i), m.Get(j, i)));
-        }
-      }
-      return rValue;
-    }
   }
 }
