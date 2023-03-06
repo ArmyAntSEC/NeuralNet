@@ -31,9 +31,8 @@ namespace NeuralNetAsp.NeuralNetApiTests
         {
           Assert.AreEqual(true, message.IsSuccessStatusCode);
           var body = message.Content.ReadAsStringAsync().Result;
-          Console.WriteLine("*** Response body: " + body);
-          var deserializedObject = JsonSerializer.Deserialize<ResponseData>(body);
-          Assert.AreEqual(0.20501795434531944, deserializedObject.LayerOneWeights[0]);
+
+          Assert.AreEqual("{\"layer_one_weights\":[0.20501795434531944,4.851008781645799,-5.094595716697625,-3.173856984876353,-0.3819715353811027,5.729700533135147,-7.097541432816082,-3.6949973939179026,-0.11692806431143415,-3.895180491131896,2.0547548660462955,1.6979619539598476],\"layer_two_weights\":[5.44573619851985,5.522509842250539,-4.9276948411470585]}", body);
         }
       }
     }
