@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
-namespace NeuralNetAsp.ApiTests
+namespace NeuralNetAsp.HeartbeatApiTests
 {
   [TestClass]
-  public class NeuralNetApiTests
+  public class HeartbeatApiTest
   {
 
     string baseUrl = "http://localhost:5000/api";

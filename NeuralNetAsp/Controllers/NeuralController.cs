@@ -97,7 +97,9 @@ namespace NeuralNetAsp.Controllers
 
   public class ResponseData
   {
+    [JsonPropertyName("layer_one_weights")]
     public double[] LayerOneWeights { get; set; }
+    [JsonPropertyName("layer_two_weights")]
     public double[] LayerTwoWeights { get; set; }
 
     public ResponseData(double[] layerOne, double[] layerTwo)
