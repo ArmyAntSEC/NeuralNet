@@ -32,6 +32,5 @@ The code is rather rought and there are some major improvements that this code w
 - Use the provisioned DynamoDb database to store the trained parameters so 
 they do not need to be sent in the GET stage (Partially done in the database branch).
 - Give the ASP.NET controller code better structure and error handling.
-- Convert the build scripts into a proper CI system including using the 
-test framework to also test the final APIs in end-to-end testing.
+- Convert the build scripts into a proper CI system.
 - Add complete tests for all standard error cases for all matrix operations and properly error on all of them.

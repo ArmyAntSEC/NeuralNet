@@ -4,13 +4,13 @@ using System.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
-namespace NeuralNetAsp.ApiTests
+namespace NeuralNetAsp.HeartbeatApiTests
 {
   [TestClass]
-  public class NeuralNetApiTests
+  public class HeartbeatApiTest
   {
 
-    string baseUrl = "http://localhost:5000/api";
+    string baseUrl = "http://localhost:/api";
 
     static readonly HttpClient httpClient = new HttpClient();
 
@@ -23,7 +23,7 @@ namespace NeuralNetAsp.ApiTests
         Assert.AreEqual(true, message.IsSuccessStatusCode);
 
         var deserializedObject = JsonSerializer.Deserialize<HeartbeatResponse>(message.Content.ReadAsStringAsync().Result);
-        Assert.AreEqual("Alive!", deserializedObject.Status);
+        Assert.AreEqual("Alive!", deserializedObject!.Status);
       }
     }
   }

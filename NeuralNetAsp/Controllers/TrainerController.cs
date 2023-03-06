@@ -9,26 +9,9 @@ using static NeuralNetAsp.Utils.Guard;
 namespace NeuralNetAsp.Controllers
 {
   [Route("api/[controller]")]
-  public class NeuralController : Controller
+  public class TrainerController : Controller
   {
-    // GET api/neural/<id>
-    [HttpGet]
-    public JsonResult Get([FromBody] PredictData data)
-    {
-      int inputSize = 4;
-      int hiddenLayerSize = data.LayerOneWeights.Length / inputSize;
-      var weightsOne = new Matrix(data.LayerOneWeights, inputSize, hiddenLayerSize);
-      var weightsTwo = new Matrix(data.LayerTwoWeights, hiddenLayerSize, 1);
-
-      var parameters = new NetworkParameters(weightsOne, weightsTwo);
-
-      var input = new Matrix(data.input, 1, inputSize);
-
-      var feedForwardResult = NeuralNetCore.feedForward(input, parameters);
-      return Json(feedForwardResult.LayerTwo.Get(0));
-    }
-
-    // POST api/neural
+    // POST api/trainer
     [HttpPost]
     public JsonResult Post([FromBody] TrainingData input)
     {
@@ -83,33 +66,5 @@ namespace NeuralNetAsp.Controllers
         return Json(e.Message);
       }
     }
-  }
-
-  public class PredictData : ResponseData
-  {
-    public double[] input { get; set; }
-
-    public PredictData(double[] input, double[] layerOne, double[] layerTwo) : base(layerOne, layerTwo)
-    {
-      this.input = input;
-    }
-  }
-
-  public class ResponseData
-  {
-    public double[] LayerOneWeights { get; set; }
-    public double[] LayerTwoWeights { get; set; }
-
-    public ResponseData(double[] layerOne, double[] layerTwo)
-    {
-      LayerOneWeights = layerOne;
-      LayerTwoWeights = layerTwo;
-    }
-  }
-
-  public class TrainingData
-  {
-    public double[] Input { get; set; }
-    public double[] Output { get; set; }
   }
 }
