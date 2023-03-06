@@ -146,44 +146,12 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     public Matrix plus(Matrix term)
     {
-      var height = GetHeight();
-      var width = GetWidth();
-      CheckEqual(height, term.GetHeight());
-      CheckEqual(width, term.GetWidth());
-
-      var rValue = new MutableMatrix(height, width);
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.Set(j, i, this.Get(j, i) + term.Get(j, i));
-        }
-      }
-      return rValue;
+      return ElementWiseBasedOnOtherMatrix((x, y) => x + y, term);
     }
 
     public Matrix plus(double term)
     {
       return ElementWiseBasedOnSelf(x => x + term);
-    }
-
-    public Matrix dot(Matrix b)
-    {
-      CheckEqual(GetWidth(), b.GetHeight());
-      CheckEqual(b.GetWidth(), 1);
-
-
-      var rValue = new MutableMatrix(GetHeight(), 1);
-      for (int j = 0; j < GetHeight(); j++)
-      {
-        var sum = 0.0;
-        for (int i = 0; i < b.GetHeight(); i++)
-        {
-          sum += Get(j, i) * b.Get(i, 0);
-        }
-        rValue.Set(j, 0, sum);
-      }
-      return rValue;
     }
 
     public Matrix mtimes(Matrix data2)
@@ -215,20 +183,7 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     public Matrix elementMult(Matrix data2)
     {
-      var height = GetHeight();
-      var width = GetWidth();
-      CheckEqual(height, data2.GetHeight());
-      CheckEqual(width, data2.GetWidth());
-
-      var rValue = new MutableMatrix(height, width);
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.Set(j, i, Get(j, i) * data2.Get(j, i));
-        }
-      }
-      return rValue;
+      return ElementWiseBasedOnOtherMatrix((x, y) => x * y, data2);
     }
 
     public Matrix transpose()
@@ -284,7 +239,26 @@ namespace NeuralNetAsp.Models.MatrixCore
         }
       }
       return rValue;
+    }
 
+    private Matrix ElementWiseBasedOnOtherMatrix(Func<double, double, double> op, Matrix m)
+    {
+      var height = GetHeight();
+      var width = GetWidth();
+
+      CheckEqual(height, m.GetHeight());
+      CheckEqual(width, m.GetWidth());
+
+
+      var rValue = new MutableMatrix(height, width);
+      for (int i = 0; i < width; i++)
+      {
+        for (int j = 0; j < height; j++)
+        {
+          rValue.Set(j, i, op(Get(j, i), m.Get(j, i)));
+        }
+      }
+      return rValue;
     }
   }
 }
