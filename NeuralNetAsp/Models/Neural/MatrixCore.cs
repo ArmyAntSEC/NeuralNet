@@ -83,6 +83,10 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     public double Get(int row, int column)
     {
+      Check(
+        row < GetHeight() && column < GetWidth() &&
+        row >= 0 && column >= 0);
+
       return data[row, column];
     }
 
@@ -98,33 +102,29 @@ namespace NeuralNetAsp.Models.MatrixCore
 
     public double Get(int idx)
     {
-      var column = idx / GetHeight();
-      var row = idx - column * GetHeight();
-
-      return this.data[row, column];
+      var rowAndColumn = computeRowAndColumn(idx);
+      return this.data[rowAndColumn.Row, rowAndColumn.Column];
     }
 
-    //Only allowed in constructors
+    //Only allowed to be used in constructors
     private void Set(int idx, double value)
+    {
+      var rowAndColumn = computeRowAndColumn(idx);
+      this.data[rowAndColumn.Row, rowAndColumn.Column] = value;
+    }
+
+    private RowAndColumnIndex computeRowAndColumn(int idx)
     {
       var column = idx / GetHeight();
       var row = idx - column * GetHeight();
-
-      this.data[row, column] = value;
+      return new RowAndColumnIndex(row, column);
     }
 
     public static Matrix generateRandomMatrix(int height, int width, int seed = 1)
     {
+      //Does a double-allocation, which is inefficient, but the code is clean.
       var rnd = new Random(seed);
-      var rValue = new Matrix(height, width);
-      for (int i = 0; i < width; i++)
-      {
-        for (int j = 0; j < height; j++)
-        {
-          rValue.data[j, i] = 2 * rnd.NextDouble() - 1;
-        }
-      }
-      return rValue;
+      return new Matrix(height, width).ElementWiseBasedOnSelf(x => 2 * rnd.NextDouble() - 1);
     }
 
     public static Matrix generateZeroMatrix(int height, int width)

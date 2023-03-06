@@ -1,6 +1,3 @@
-using System;
-using static NeuralNetAsp.Utils.Guard;
-
 namespace NeuralNetAsp.Models.MatrixCore
 {
   public class MutableMatrix : Matrix
