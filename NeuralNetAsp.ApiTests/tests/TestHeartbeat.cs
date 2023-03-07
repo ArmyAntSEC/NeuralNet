@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using System;
 
 namespace NeuralNetAsp.HeartbeatApiTests
 {
@@ -10,14 +11,15 @@ namespace NeuralNetAsp.HeartbeatApiTests
   public class HeartbeatApiTest
   {
 
-    string baseUrl = "http://localhost:/api";
+    string baseUrl = Environment.GetEnvironmentVariable("NEURAL_NET_BASE_URL") ?? "http://localhost:5000/api";
 
     static readonly HttpClient httpClient = new HttpClient();
 
     [TestMethod]
     public void TestHeartbeatApi()
     {
-      var url = baseUrl + "/heartbeat";
+      var url = baseUrl + "/api/heartbeat";
+      Console.WriteLine("*** URL: " + url);
       using (HttpResponseMessage message = httpClient.GetAsync(url).Result)
       {
         Assert.AreEqual(true, message.IsSuccessStatusCode);

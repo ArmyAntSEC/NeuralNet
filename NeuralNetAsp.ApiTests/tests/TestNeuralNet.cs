@@ -13,14 +13,14 @@ namespace NeuralNetAsp.NeuralNetApiTests
   public class NeuralNetApiTest
   {
 
-    string baseUrl = "http://localhost:80/api";
+    string baseUrl = Environment.GetEnvironmentVariable("NEURAL_NET_BASE_URL") ?? "http://localhost:5000/api";
 
     static readonly HttpClient httpClient = new HttpClient();
 
     [TestMethod]
     public void TestTrainNetwork()
     {
-      var url = baseUrl + "/trainer";
+      var url = baseUrl + "/api/trainer";
 
       var request = new TrainingData();
       request.Input = new double[] { -0.33, -0.33, -0.33, -0.33, -0.33, 0.69, 0.94, 0.5, 0.75, 0.67, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1 };
@@ -44,7 +44,7 @@ namespace NeuralNetAsp.NeuralNetApiTests
     [TestMethod]
     public void TestPredict()
     {
-      var url = baseUrl + "/predictor";
+      var url = baseUrl + "/api/predictor";
 
       var request = new PredictData();
       request.LayerOneWeights = new double[] { 0.20501795434531928, 4.851008781645798, -5.094595716697624, -3.173856984876353, -0.3819715353811023, 5.729700533135146, -7.097541432816082, -3.6949973939179026, -0.1169280643114341, -3.895180491131896, 2.054754866046295, 1.697961953959847 };
