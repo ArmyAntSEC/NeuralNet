@@ -40,9 +40,9 @@ namespace NeuralNetAsp.Models.Neural
       return new NetworkParameters(newWeightsLayerOne, newWeightsLayerTwo);
     }
 
-    public static Matrix computenewWeightsSingleLayer(Matrix weights, double alpha, Matrix layer, Matrix layer2_delta)
+    public static Matrix computenewWeightsSingleLayer(Matrix weights, double alpha, Matrix layer, Matrix layerDelta)
     {
-      var inner = layer.transpose().mtimes(layer2_delta);
+      var inner = layer.transpose().mtimes(layerDelta);
       var correction = inner.times(-alpha);
       return weights.plus(correction);
     }
