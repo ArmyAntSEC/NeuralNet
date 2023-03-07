@@ -1,6 +1,6 @@
 # NeuralNET demo
 
-This is a small dem of a pair of endpoints that train and predict 
+This is a small demo of a pair of endpoints that train and predict 
 respectively with a simple neural network.
 
 The code is written mosly as a style demo of C# and illustrates the following best practices:
